@@ -6,6 +6,10 @@ Use P4wnP1 RAW HID channel to deliver and execute an Executable file using poers
 
 The **DeliverAndExec.py** Takes an Executable file, convert it to base64 and creates the powershell payload **Stage2.ps1** which will be delivered to the target machine via P4wnP1 RAW HID channel.
 
+## DEMO
+
+![](https://raw.githubusercontent.com/NightRang3r/P4wnP1-A.L.O.A.-Payloads/master/RAW%20HID%20Attacks/DeliverAndExecute/deliver.gif)
+
 ## Instructions (NETCAT Example)
 
 - Using the P4wnP1 web interface set P4wnP1 as Keyboard and RAW HID
