@@ -1,8 +1,69 @@
 # P4wnP1-A.L.O.A. Payloads
-Payloads for P4wnP1 A.L.O.A
 
-* HID Scripts should be placed in ``` /usr/local/P4wnP1/HIDScripts ```
-* Shell scripts should be places in ``` /usr/local/P4wnP1/scripts accessible ```
-* Loot directory will be created in: ``` /usr/local/P4wnP1/www/loot ``` and is accessible via browser at: ``` http://172.XX.0.1:8000/loot/ ```
+## Currently Under Development: This repository is actively being updated. Stay tuned for new changes and improvements. !!!!
+
+- HID Scripts should be placed in `/usr/local/P4wnP1/HIDScripts`
+- Shell scripts should be places in `/usr/local/P4wnP1/scripts`
+- Loot directory will be created in: `/usr/local/P4wnP1/www/loot` and is accessible via browser at: `http://172.XX.0.1:8000/loot/`
 
 **You can find the usage and requirements information in the comments inside each file**
+
+The scripts (compatible with Windows and OSX) and HIDScripts (designed for Windows) have been tested and verified. They've been adapted to integrate and work with my customized P4wnP1 Image. You'll find this repository pre-included in the root directory of the image. To ensure you have the latest version, periodically execute a 'git pull' command.
+
+Please be aware that RAW HID Attacks may not function as intended with my custom image, which utilizes Python3. I am actively working to resolve this and will release an update shortly.
+
+If you plan to use this repository with a different image, be prepared to make necessary adjustments to the scripts for compatibility.
+
+# P4wnP1 A.L.O.A - Kali Linux 2023.1 Image for Raspberry Pi 0W
+
+You can get my cutom P4wnP1 Kali Linux 2023.1 image for Raspberry Pi 0W from [here](https://sourceforge.net/projects/p4wnp1-aloa-kali-linux-2023-1/)
+
+## Key Features
+
+- **Boot Configuration**: Updated `boot.txt` and `config.txt` for to support P4wnP1 functionality.
+- **Included Tools**:
+  - Responder
+  - Metasploit Framework
+  - Impacket
+  - Nmap
+  - Aircrack-ng
+  - MDK4
+  - MSFPC
+  - Python3-pymetasploit3
+  - `raspi-config` for easy filesystem expansion
+  - **Note**: Only supports Python3 (Python2 is excluded).
+
+## Pre-installed Python3 Libraries
+
+- spidev
+- Pillow
+- luma.lcd
+- luma.core
+- luma.oled
+- RPi.GPIO
+
+## LCD/OLED Hat Support
+
+- **LCD Menu**: [`P4wnP1_ALOA_LCD_MENU`](https://github.com/NightRang3r/P4wnP1_ALOA_LCD_MENU.git) - a modified version of this repository is included in the image in the root folder.
+- **OLED Menu V2**: [`P4wnP1_ALOA_OLED_MENU_V2`](https://github.com/beboxos/P4wnP1_ALOA_OLED_MENU_V2.git) - a modified version of this repository is included in the image in the root folder, Adjustments may be needed for Python3.
+
+## Exclusive Payloads
+
+- [`P4wnP1-A.L.O.A.-Payloads`](https://github.com/NightRang3r/P4wnP1-A.L.O.A.-Payloads.git) - A collection of Payloads for P4wnP1 (Python3 adjustments underway).
+
+### Installation Guide
+
+1. **Download**: Grab the image file from [https://sourceforge.net/projects/p4wnp1-aloa-kali-linux-2023-1/](https://sourceforge.net/projects/p4wnp1-aloa-kali-linux-2023-1/).
+2. **Flash**: Use your preferred method to flash the image onto your Raspberry Pi 0W.
+3. **Connect**: Access the Pi via SSH in USB Gadget Mode or Wifi AP Mode.
+   - **USB Gadget Mode**:
+     - SSH: `172.16.0.1`, Port: `22`
+     - Web UI: `http://172.16.0.1:8000`
+   - **Wifi AP Mode**:
+     - SSID: 💥🖥💥 Ⓟ➃ⓌⓃ🅟❶
+     - SSH: `172.24.0.1`, Port: `22`
+     - Web UI: `http://172.24.0.1:8000`
+   - **Credentials**: `root:toor`, WiFi Key: `MaMe82-P4wnP1`
+4. **Expand Filesystem**: Run `raspi-config --expand-rootfs` and reboot to use the full SD card size.
+5. **LCD/OLED Setup**: If you have a hat, navigate to the corresponding directory (in `/root`) and run `./install.sh`.
+6. **Final Touch**: Create a new trigger action when service starts to run a bash script and select: `/usr/local/P4wnP1/scripts/runmenu.sh`, save it to the `startup` template in the P4wnP1 UI.
