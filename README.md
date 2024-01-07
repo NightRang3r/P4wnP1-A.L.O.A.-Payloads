@@ -8,7 +8,7 @@
 
 **You can find the usage and requirements information in the comments inside each file**
 
-The scripts (compatible with Windows and OSX) and HIDScripts (designed for Windows) have been tested and verified. They've been adapted to integrate and work with my customized P4wnP1 Image. You'll find this repository pre-included in the root directory of the image. To ensure you have the latest version, periodically execute a 'git pull' command.
+The scripts (compatible with Windows and OSX) and HIDScripts (designed for Windows) have been tested and verified. They've been adapted to integrate and work with [my customized P4wnP1 Image](https://sourceforge.net/projects/p4wnp1-aloa-kali-linux-2023-1/). You'll find this repository pre-included in the root directory of the image. To ensure you have the latest version, periodically execute a 'git pull' command.
 
 Please be aware that RAW HID Attacks may not function as intended with my custom image, which utilizes Python3. I am actively working to resolve this and will release an update shortly.
 
