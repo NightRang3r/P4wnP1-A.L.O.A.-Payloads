@@ -10,8 +10,6 @@
 
 The scripts (compatible with Windows and OSX) and HIDScripts (designed for Windows) have been tested and verified. They've been adapted to integrate and work with [my customized P4wnP1 Image](https://drive.google.com/drive/folders/14XCb1sHFjzZa7OnzNZRt5AeTbEyZlZGf?usp=sharing). You'll find this repository pre-included in the root directory of the image. To ensure you have the latest version, periodically execute a 'git pull' command.
 
-Please be aware that RAW HID Attacks may not function as intended with my custom image, which utilizes Python3. I am actively working to resolve this and will release an update shortly.
-
 If you plan to use this repository with a different image, be prepared to make necessary adjustments to the scripts for compatibility.
 
 # P4wnP1 A.L.O.A - Kali Linux 2023.1 Image for Raspberry Pi 0W
@@ -32,7 +30,8 @@ You can get my cutom P4wnP1 Kali Linux 2023.1 image for Raspberry Pi 0W from [he
   - Python3-pymetasploit3
   - kali windows-binaries
   - `raspi-config` for easy filesystem expansion
-  - **Note**: Only supports Python3 (Python2 is excluded).
+  - python2
+  - python3
 
 ## Pre-installed Python3 Libraries
 
@@ -50,7 +49,7 @@ You can get my cutom P4wnP1 Kali Linux 2023.1 image for Raspberry Pi 0W from [he
 
 ## Exclusive Payloads
 
-- [`P4wnP1-A.L.O.A.-Payloads`](https://github.com/NightRang3r/P4wnP1-A.L.O.A.-Payloads.git) - A collection of Payloads for P4wnP1 (Python3 adjustments underway).
+- [`P4wnP1-A.L.O.A.-Payloads`](https://github.com/NightRang3r/P4wnP1-A.L.O.A.-Payloads.git) - A collection of Payloads for P4wnP1.
 
 ### Installation Guide
 
