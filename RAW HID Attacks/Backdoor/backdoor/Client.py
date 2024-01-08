@@ -31,7 +31,7 @@ class Client(object):
     @staticmethod
     def print_debug(str):
         if Client.DEBUG:
-            print "Client state (DEBUG): {}".format(str)
+            print("Client state (DEBUG): {}".format(str))
 
     def get_next_method_id(self):
         next = self.__next_method_id
@@ -47,14 +47,14 @@ class Client(object):
         self.__next_method_id = 1
         # abort all pending method with error
         if hasattr(self,  "_Client__pending_methods"):
-            for method_id in self.__pending_methods.keys(): # we copy the dictionary keys, as processed methods get removed by another thread while iterating
+            for method_id in list(self.__pending_methods.keys()): # we copy the dictionary keys, as processed methods get removed by another thread while iterating
                 errstr =  "Method aborted, because client disconnected"
                 err_indicator =  1
                 response = struct.pack("!IB{0}sx".format(len(errstr)), method_id, err_indicator, errstr)
                 self.deliverMethodResponse(response)
         # close all opened channels
         if hasattr(self,  "_Client__channels"):
-            for channel in self.__channels.values():
+            for channel in list(self.__channels.values()):
                 channel.onClose() 
         self.__pending_methods = {}
         self.__processes = {}
@@ -64,13 +64,13 @@ class Client(object):
         self.__isConnected =  False
 
     def print_state(self):
-        print "Client state"
-        print "============"
-        print "Link:\t{0}".format(self.__hasLink)
-        print "Stage2:\t{0}".format(self.__stage2)
-        print "Connected:\t{0}".format(self.__isConnected)
-        print "PS:\t{0}".format(self.__ps_version)
-        print "OS:\n{0}".format(self.__os_info)
+        print("Client state")
+        print("============")
+        print("Link:\t{0}".format(self.__hasLink))
+        print("Stage2:\t{0}".format(self.__stage2))
+        print("Connected:\t{0}".format(self.__isConnected))
+        print("PS:\t{0}".format(self.__ps_version))
+        print("OS:\n{0}".format(self.__os_info))
 
     def setConnected(self, connected):
         if self.__isConnected == connected:
@@ -139,7 +139,7 @@ class Client(object):
 
     @staticmethod
     def defaultMethodErrorHandler(response):
-        print "Error when calling method:\n" + response
+        print("Error when calling method:\n" + response)
 
 
     def deliverMethodResponse(self, response):
@@ -260,7 +260,7 @@ class Client(object):
         outdata = []
 
         # iterate over output channels
-        for ch in self.__channels_out.keys():
+        for ch in list(self.__channels_out.keys()):
             try:
                 channel = self.__channels_out[ch]
             except KeyError:

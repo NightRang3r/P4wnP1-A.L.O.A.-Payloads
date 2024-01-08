@@ -145,8 +145,8 @@ class FileSystem:
         try:
             os.chdir(tdir)
         except OSError:
-            ex =  sys.exc_value
-            print ex
+            ex =  sys.exc_info()[1]
+            print(ex)
         return os.getcwd()    
 
     @staticmethod
@@ -155,7 +155,7 @@ class FileSystem:
         try:
             res = os.listdir(tdir)
         except OSError:
-            res =  sys.exc_value
+            res =  sys.exc_info()[1]
         return res
     
     @staticmethod

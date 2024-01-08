@@ -22,7 +22,7 @@
 from pydispatch import dispatcher
 from LinkLayer import LinkLayer
 from threading import current_thread
-import Queue
+import queue
 
 class TransportLayer():
         """
@@ -52,7 +52,7 @@ class TransportLayer():
 
         def __init__(self):
                 # create queue for incoming streams to decouple processing from link layer reader thread
-                self.stream_in_queue = Queue.Queue()
+                self.stream_in_queue = queue.Queue()
 
                 # register Listener for LinkLayer signals
                 dispatcher.connect(self.handle_link_layer, sender="LinkLayer")
@@ -73,7 +73,7 @@ class TransportLayer():
         @staticmethod
         def print_debug(str):
                 if TransportLayer.DEBUG:
-                        print "TransportLayer (DEBUG): {}".format(str)
+                        print("TransportLayer (DEBUG): {}".format(str))
 
         # loose definition of LinkLayer handler, data argument has to be produced by LinkLayer
         def handle_link_layer(self, signal, data):

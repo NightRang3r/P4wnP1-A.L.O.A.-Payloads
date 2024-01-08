@@ -18,7 +18,7 @@
 #    You should have received a copy of the GNU General Public License
 #    along with P4wnP1.  If not, see <http://www.gnu.org/licenses/>.
 
-from hid_mouse import hid_mouse
+from .hid_mouse import hid_mouse
 import time
 import sys
 
@@ -31,7 +31,7 @@ class MouseScriptParser:
 			with open("/tmp/device_hid_mouse", "rb") as f:
 				devfile = f.readline().replace("\n", "")
 		except IOError:
-			print "/tmp/device_hid_mouse missing, mouse seems to be disabled!"
+			print("/tmp/device_hid_mouse missing, mouse seems to be disabled!")
 			sys.exit()
 		self.mouse = hid_mouse(False, devfile)
 
@@ -75,7 +75,7 @@ class MouseScriptParser:
 		try:
 			method = getattr(self, method_name)
 		except AttributeError:
-			print "Error: Missing implementation for {0}, commans '{1}' ignored".format(method_name, cmd)
+			print("Error: Missing implementation for {0}, commans '{1}' ignored".format(method_name, cmd))
 			return
 		method(argv)
 
