@@ -25,7 +25,7 @@ from threading import Event
 import time
 import os
 import struct
-import queue
+import Queue
 import time
 from select import select
 from pydispatch import dispatcher
@@ -59,7 +59,7 @@ class LinkLayer:
 		dispatcher.connect(self.__handle_transport_layer, sender=LinkLayer.TRANSPORTLAYER_SENDER_NAME)
 		
 	def __resetState(self):
-		self.state["qout"] = queue.Queue()
+		self.state["qout"] = Queue.Queue()
 		#self.state["qin"] = Queue.Queue()
 		self.state["MAX_OUT_QUEUE"]=32 # how many packets are allowed to be pening in output queue (without ACK received)
 	
@@ -80,11 +80,11 @@ class LinkLayer:
 			#print "Writing to LinkLayer output queue"
 			self.state["qout"].put(data)
 		else:
-			print("LinkLayer: Unhandled signal from transport layer, processed by thread: " + current_thread().getName())
+			print "LinkLayer: Unhandled signal from transport layer, processed by thread: " + current_thread().getName()
 			if data:
-				print("LinkLayer: signal: " + signal + ", data:" + data)
+				print "LinkLayer: signal: " + signal + ", data:" + data
 			else:
-				print("LinkLayer: signal: " + signal + ", no data")
+				print "LinkLayer: signal: " + signal + ", no data"
 
 
 	def stop(self):
@@ -92,13 +92,13 @@ class LinkLayer:
 		self.state["EVENT_STOP_WRITE"].set()
 		self.state["EVENT_STOP_READ"].set()
 		# terminate read thread if set
-		if "read_thread" in self.state:
+		if self.state.has_key("read_thread"):
 			try:
 				self.state["read_thread"].join()
 			except RuntimeError:
 				pass # same thread or not started
 		# terminate write thread if set
-		if "write_thread" in self.state and threading.currentThread != self.state["write_thread"]:
+		if self.state.has_key("write_thread") and threading.currentThread != self.state["write_thread"]:
 			try:
 				self.state["write_thread"].join()
 			except RuntimeError:
@@ -211,17 +211,17 @@ class LinkLayer:
 			usable_send_slots = outbuf_fill_end - outbuf_fill_start
 
 			if DEBUG:
-				print("===================== Writer stats ====================================================")
-				print("Writer: Last valid ACK " + str(last_valid_ack_rcvd))
-				print("Writer: Last SEQ used " + str(last_seq_used))
+				print "===================== Writer stats ===================================================="
+				print "Writer: Last valid ACK " + str(last_valid_ack_rcvd)
+				print "Writer: Last SEQ used " + str(last_seq_used)
 				if is_resend:
-					print("Writer: Answering RESEND ")
-				print("Writer: OUTBUF position from " + str(outbuf_start) + " to " + str(outbuf_end))
-				print("Writer: OUTBUF fill position from " + str(outbuf_fill_start) + " to " + str(outbuf_fill_end))
-				print("Writer: OUTBUF send position from " + str(outbuf_send_start) + " to " + str(outbuf_send_end))
-				print("Writer: OUTBUF usable send slots " + str(usable_send_slots))
-				print("Qout stream count " + str(qout.qsize()))
-				print("=======================================================================================")
+					print "Writer: Answering RESEND "
+				print "Writer: OUTBUF position from " + str(outbuf_start) + " to " + str(outbuf_end)
+				print "Writer: OUTBUF fill position from " + str(outbuf_fill_start) + " to " + str(outbuf_fill_end)
+				print "Writer: OUTBUF send position from " + str(outbuf_send_start) + " to " + str(outbuf_send_end)
+				print "Writer: OUTBUF usable send slots " + str(usable_send_slots)
+				print "Qout stream count " + str(qout.qsize())
+				print "======================================================================================="
 
 
 			# fill usable send slots in outbuf
@@ -394,7 +394,7 @@ class LinkLayer:
 			ACK = report[1] & 63
 
 			if DEBUG:
-				print("Reader: Report received: Length " + str(LENGTH) + " FIN bit " + str(BYTE1_BIT7_FIN/128))
+				print "Reader: Report received: Length " + str(LENGTH) + " FIN bit " + str(BYTE1_BIT7_FIN/128)
 
 			# handle (re) connect bit
 			if (BYTE2_BIT7_CONNECT):
@@ -536,5 +536,5 @@ class LinkLayer:
 			# emit message via dispatcher
 			dispatcher.send(data = "LinkLayer done syncing", signal = LinkLayer.SIGNAL_LINKLAYER_SYNCED, sender = LinkLayer.DISPATCHER_SENDER_NAME)
 		else:
-			print("LinkLayer: Aborting sync")
+			print "LinkLayer: Aborting sync"
 

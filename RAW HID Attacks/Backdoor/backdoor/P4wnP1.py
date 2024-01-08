@@ -22,7 +22,7 @@ import time
 import cmd
 import sys
 import os
-import queue
+import Queue
 import struct
 from pydispatch import dispatcher
 from LinkLayer  import LinkLayer
@@ -121,14 +121,14 @@ Use "help FireStage1" to get more details.
 			return line
 		if cmd in self.client_connected_commands:
 			if not self.client.isConnected():
-				print("")
-				print("Command '{0}' could only be called with a client connected.".format(cmd))
-				print("--------------------------------------------------------------")
-				print("")
-				print("Use 'SetKeyboardLanguage' to switch to your targtes keyboard")
-				print("layout and run 'FireStage1' to connect via HID covert channel.")
-				print("--------------------------------------------------------------")
-				print("")
+				print ""
+				print "Command '{0}' could only be called with a client connected.".format(cmd)
+				print "--------------------------------------------------------------"
+				print ""
+				print "Use 'SetKeyboardLanguage' to switch to your targtes keyboard"
+				print "layout and run 'FireStage1' to connect via HID covert channel."
+				print "--------------------------------------------------------------"
+				print ""
 				return ""		
 		return line
 
@@ -142,7 +142,7 @@ Use "help FireStage1" to get more details.
 			
 	def print_reprompt(self, text = ""):
 		if len(text) > 0:
-			print(text)
+			print text
 		sys.stdout.write(self.prompt)
 		sys.stdout.flush()
 		
@@ -150,7 +150,7 @@ Use "help FireStage1" to get more details.
 	@staticmethod
 	def print_debug(str):
 		if P4wnP1.DEBUG:
-			print("P4wnP1 Server (DEBUG): {}".format(str))
+			print "P4wnP1 Server (DEBUG): {}".format(str)
 
 	########################
 	# Internal methods of P4wnP1 server
@@ -169,10 +169,10 @@ Use "help FireStage1" to get more details.
 		self.tl.write_stream(ctrl_message)
 	
 	def interactWithClientProcess(self, pid):
-		print("Trying to interact with process ID {0} ...".format(pid))
+		print "Trying to interact with process ID {0} ...".format(pid)
 		proc = self.client.getProcess(pid)
 		if not proc:
-			print("PID {0} not found or process not managed by P4wnP1".format(pid))
+			print "PID {0} not found or process not managed by P4wnP1".format(pid)
 			return
 
 
@@ -183,10 +183,10 @@ Use "help FireStage1" to get more details.
 		while interacting:
 			if not self.client.isConnected():
 				interacting = False
-				print("\nClient disconnected, stop interacting")
+				print "\nClient disconnected, stop interacting"
 				break
 			if proc.hasExited:
-				print("\nProcess exited... stopping interaction")
+				print "\nProcess exited... stopping interaction"
 				if proc.keepTillInteract:
 					self.client.removeProc(proc.id)
 				break
@@ -196,12 +196,12 @@ Use "help FireStage1" to get more details.
 				# only read key if data available in stdin(avoid blocking stdout)
 				if select.select([sys.stdin], [], [], 0.05)[0]: # 50 ms timeout, to keep CPU load low
 					input = sys.stdin.readline()
-					print(input)
+					print input
 					proc.writeStdin(input)
 			except KeyboardInterrupt:
 				interacting = False
 				proc.setInteract(False)
-				print("\nInteraction stopped by keyboard interrupt.\nTo continue interaction use 'interact'.")
+				print "\nInteraction stopped by keyboard interrupt.\nTo continue interaction use 'interact'."
 
 	#def addChannel(self, payload):
 		#'''
@@ -215,9 +215,9 @@ Use "help FireStage1" to get more details.
 	def onClientConnectStateChange(self, state):
 		#print "Client connect state: {0}".format(state)
 		if state:
-			print("\nTarget connected through HID covert channel\n")
+			print "\nTarget connected through HID covert channel\n"
 		else:
-			print("\nTarget disconnected")
+			print "\nTarget disconnected"
 		self.setPrompt(state)
 	
 	def onClientProcessExitted(self, payload):
@@ -238,7 +238,7 @@ Use "help FireStage1" to get more details.
 
 	def start(self):
 		# start LinkLayer Threads
-		print("Starting P4wnP1 server...")
+		print "Starting P4wnP1 server..."
 		self.ll.start_background()
 		
 		self.running = True
@@ -257,7 +257,7 @@ Use "help FireStage1" to get more details.
 		while self.running:
 			pending_methods = self.client.getPendingMethods()
 
-			for method_id in list(pending_methods.keys()):
+			for method_id in pending_methods.keys():
 				try:
 					method = pending_methods[method_id]
 				except KeyError:
@@ -515,10 +515,10 @@ Use "help FireStage1" to get more details.
 		return response
 	
 	def handler_client_echotest(self, response):
-		print(response)
+		print response
 
 	def handler_client_get_proc_list(self, response):
-		print(response.replace("\r\n", "\n"))
+		print response.replace("\r\n", "\n")
 		
 	def handler_client_create_shell_proc(self, response):
 		return self.handler_client_create_proc(response)
@@ -566,10 +566,10 @@ Use "help FireStage1" to get more details.
 			self.client_call_inform_channel_added(ch_stderr)
 			self.client_call_inform_channel_added(ch_stdout)
 		
-			print("Process with ID {0} created".format(proc_id))
+			print "Process with ID {0} created".format(proc_id)
 			return proc
 		else:
-			print("Process created without channels, PID: {0}".format(proc_id))
+			print "Process created without channels, PID: {0}".format(proc_id)
 
 	def handler_client_inform_channel_added(self, response):
 		P4wnP1.print_debug("Channel added inform " + repr(response))
@@ -592,7 +592,7 @@ Use "help FireStage1" to get more details.
 			proc_id = int(line)
 			self.client_call_kill_proc(proc_id)
 		except ValueError:
-			print("{0} is not a process id".format(line))
+			print "{0} is not a process id".format(line)
 		
 
 
@@ -602,7 +602,7 @@ Use "help FireStage1" to get more details.
 	'''
 
 		if not self.client.isConnected():
-			print("This doesn't make sense, there's no client connected")
+			print "This doesn't make sense, there's no client connected"
 			return
 		
 		self.killCLient()
@@ -614,7 +614,7 @@ Use "help FireStage1" to get more details.
 		'''
 
 		if not self.client.isConnected():
-			print("Not possible, client not connected")
+			print "Not possible, client not connected"
 			return
 
 		if " " in line:
@@ -631,14 +631,14 @@ Use "help FireStage1" to get more details.
 		'''
 
 		if not self.client.isConnected():
-			print("Not possible, client not connected")
+			print "Not possible, client not connected"
 			return
 
 		self.client_call_get_proc_list(waitForResult = True)
 
 	def do_shell(self, line):
 		if not self.client.isConnected():
-			print("Not possible... Run 'FireStage1' first, to get the target connected")
+			print "Not possible... Run 'FireStage1' first, to get the target connected"
 			return
 		if "powershell" in line.lower():
 			self.client_call_create_shell_proc("powershell.exe")
@@ -726,13 +726,13 @@ Use "help FireStage1" to get more details.
 			try:
 				trigger_type = int(args[0])
 			except ValueError:
-				print(arg_error)
+				print arg_error
 		elif len(args) == 2:
 			try:
 				trigger_type = int(args[0])
 				trigger_delay_ms = int(args[1])
 			except ValueError:
-				print(arg_error)
+				print arg_error
 
 		hideTargetWindow = True
 		if "nohide" in line.lower():
@@ -742,10 +742,10 @@ Use "help FireStage1" to get more details.
 		if "uac" in line.lower():
 			bypassUAC = True		
 			
-		print("Starting to type out stage1 to the target...")
+		print "Starting to type out stage1 to the target..."
 		self.stage1_trigger(trigger_type=trigger_type, trigger_delay_ms=trigger_delay_ms, hideTargetWindow = hideTargetWindow, bypassUAC=bypassUAC)
-		print("...done. If the client doesn't connect back, check the target")
-		print("keyboard layout with 'SetKeyboardLanguage'")
+		print "...done. If the client doesn't connect back, check the target"
+		print "keyboard layout with 'SetKeyboardLanguage'"
 		
 	def do_SetKeyboardLanguage(self, line):
 		'''
@@ -774,8 +774,8 @@ Use "help FireStage1" to get more details.
 		
 		while not hasChosen:
 			# print available languages
-			print("Choose language by number or name:")
-			print("================================\n")
+			print "Choose language by number or name:"
+			print "================================\n"
 			index = 0
 			for i in range(0, len(available_langs), per_line):
 				line =  ""
@@ -787,14 +787,14 @@ Use "help FireStage1" to get more details.
 						line += "[{0}:{1}]\t".format(index,  available_langs[index])
 					else:
 						line += "{0}:{1}  \t".format(index,  available_langs[index])
-				print(line)
+				print line
 
 			if singleprint:
 				break
 
-			given = input("Your selection or 'x' to abort: ")
+			given = raw_input("Your selection or 'x' to abort: ")
 			if given == "x":
-				print("abort ...")
+				print "abort ..."
 				return
 			# try to choose by name
 			if given in available_langs:
@@ -809,14 +809,14 @@ Use "help FireStage1" to get more details.
 					hasChosen =  True
 					break
 				else:
-					print("Invalid input...")
+					print "Invalid input..."
 					continue						
 			except ValueError:
-				print("Invalid input...")
+				print "Invalid input..."
 				continue
 		
 		if hasChosen:
-			print(self.duckencoder.setLanguage(available_langs[langNum]))
+			print self.duckencoder.setLanguage(available_langs[langNum])
 		else:
 			return			
 		
@@ -826,34 +826,34 @@ Use "help FireStage1" to get more details.
 		'''
 	Shows which language is set for HID keyboard.
 	'''
-		print(self.duckencoder.getLanguage())
+		print self.duckencoder.getLanguage()
 
 	def do_interact(self, line):
 		if not self.client.isConnected():
-			print("Not possible, client not connected")
+			print "Not possible, client not connected"
 			return
 
 		pid = line.split(" ")[0]
 		if pid == "":
-			print("No process ID given, choose from:")
+			print "No process ID given, choose from:"
 			procs = self.client.getProcsWithChannel()
 			for p in procs:
 				if p.hasExited:
-					print("{0} (exited, interact to see final output)".format(p.id))
+					print "{0} (exited, interact to see final output)".format(p.id)
 				else:
-					print("{0}".format(p.id))
+					print "{0}".format(p.id)
 			return
 
 		try:
 			pid = int(pid.strip())
 		except ValueError:
-			print("No valid process id: {0}".format(pid))
+			print "No valid process id: {0}".format(pid)
 			return
 
 		self.interactWithClientProcess(pid)
 			
 	def do_exit(self, line):
-		print("Exitting...")
+		print "Exitting..."
 		# self.ll.stop() # should happen in global finally statement
 		sys.exit()
 
@@ -868,41 +868,41 @@ Use "help FireStage1" to get more details.
 		self.client_call_echo(line)
 	
 	def do_GetClientTimeout(self, line):
-		print("The client is considered disconnected, if no HID communication occures for")
-		print("\t{0} ms".format(P4wnP1.CLIENT_TIMEOUT_MS))
-		print() 
-		print("If you encounter disconnection issues (client is processing data to slow) increase")
-		print("this delay with `SetClientTimeout`")
+		print "The client is considered disconnected, if no HID communication occures for"
+		print "\t{0} ms".format(P4wnP1.CLIENT_TIMEOUT_MS)
+		print 
+		print "If you encounter disconnection issues (client is processing data to slow) increase"
+		print "this delay with `SetClientTimeout`"
 	
 	def do_SetClientTimeout(self, line):
 		try:
 			val = int(line)
 			if val < 10 or val > 10000:
-				print("Timeout has to be chosenbetween 10ms and 10000ms")
+				print "Timeout has to be chosenbetween 10ms and 10000ms"
 				return
 			P4wnP1.CLIENT_TIMEOUT_MS = val
 			
 		except ValueError:
-			print("You have to provide a new timeout value in milliseconds")
+			print "You have to provide a new timeout value in milliseconds"
 	
 	def do_SendDuckyScript(self, line):
 		scriptpath = self.config["PATH_DUCKYSCRIPT"] +  "/" +  line
 		
 		if not FileSystem.fileExists(scriptpath):
-			print("No script given or given script not found")
+			print "No script given or given script not found"
 			hasChosen =  False
 			scriptNum =  0
 			available_scripts =  FileSystem.ls(self.config["PATH_DUCKYSCRIPT"])
 			while not hasChosen:
 				# print out available scripts
-				print("Choose script by number or name:")
-				print("================================\n")
+				print "Choose script by number or name:"
+				print "================================\n"
 				for i in range(len(available_scripts)):
-					print("{0}:\t{1}".format(i, available_scripts[i]))
+					print "{0}:\t{1}".format(i, available_scripts[i])
 
-				given = input("Your selection or 'x' to abort: ")
+				given = raw_input("Your selection or 'x' to abort: ")
 				if given == "x":
-					print("abort ...")
+					print "abort ..."
 					return
 				# try to choose by name
 				if given in available_scripts:
@@ -916,10 +916,10 @@ Use "help FireStage1" to get more details.
 						hasChosen =  True
 						break
 					else:
-						print("Invalid input...")
+						print "Invalid input..."
 						continue						
 				except ValueError:
-					print("Invalid input...")
+					print "Invalid input..."
 					continue
 			
 			if hasChosen:
@@ -939,20 +939,20 @@ Use "help FireStage1" to get more details.
 		scriptpath = self.config["PATH_MOUSESCRIPT"] +  "/" +  line
 		
 		if not FileSystem.fileExists(scriptpath):
-			print("No script given or given script not found")
+			print "No script given or given script not found"
 			hasChosen =  False
 			scriptNum =  0
 			available_scripts = FileSystem.ls(self.config["PATH_MOUSESCRIPT"])
 			while not hasChosen:
 				# print out available scripts
-				print("Choose script by number or name:")
-				print("================================\n")
+				print "Choose script by number or name:"
+				print "================================\n"
 				for i in range(len(available_scripts)):
-					print("{0}:\t{1}".format(i, available_scripts[i]))
+					print "{0}:\t{1}".format(i, available_scripts[i])
 
-				given = input("Your selection or 'x' to abort: ")
+				given = raw_input("Your selection or 'x' to abort: ")
 				if given == "x":
-					print("abort ...")
+					print "abort ..."
 					return
 				# try to choose by name
 				if given in available_scripts:
@@ -966,10 +966,10 @@ Use "help FireStage1" to get more details.
 						hasChosen =  True
 						break
 					else:
-						print("Invalid input...")
+						print "Invalid input..."
 						continue						
 				except ValueError:
-					print("Invalid input...")
+					print "Invalid input..."
 					continue
 			
 			if hasChosen:
@@ -983,20 +983,20 @@ Use "help FireStage1" to get more details.
 			script = f.readlines()
 			
 		# execute script
-		print("Executing MouseScript ...")
+		print "Executing MouseScript ..."
 		try:
 			self.mousescriptparser.executeScript(script)
 		except KeyboardInterrupt:
-			print("MouseScript execution interrupted")
+			print "MouseScript execution interrupted"
 			return
 			
-		print("... finished")
+		print "... finished"
 		
 	def do_lcd(self,  line):
-		print(FileSystem.cd(line))
+		print FileSystem.cd(line)
 		
 	def do_lpwd(self,  line):
-		print(FileSystem.pwd())
+		print FileSystem.pwd()
 		
 	def do_lls(self,  line):
 		if len(line.strip()) >  0:
@@ -1004,7 +1004,7 @@ Use "help FireStage1" to get more details.
 		else:
 			res = FileSystem.ls_native2()
 		for l in res:
-			print(l)
+			print l
 			
 
 	def client_call_open_file(self, remote_filename, remote_filemode, remote_fileaccess):			
@@ -1035,9 +1035,9 @@ Use "help FireStage1" to get more details.
 		no_err, result = self.client.callMethod("core_call_fs_command", method_args, self.handler_pass_through_result, error_handler=self.handler_pass_through_result, waitForResult = True, deliverResult = True)
 		result, _ =  StructHelper.extractNullTerminatedString(result)
 		if no_err:
-			print(result)
+			print result
 		else:
-			print("Remote file system error: {0}".format(result))
+			print "Remote file system error: {0}".format(result)
 
 	
 	def do_pwd(self, line):
@@ -1055,11 +1055,11 @@ Use "help FireStage1" to get more details.
 		valid =  False
 		while not valid:
 			if default_yes:
-				given = input("(y)es / (n)o, default yes: ")
+				given = raw_input("(y)es / (n)o, default yes: ")
 				if not given:
 					given = "y"
 			else:
-				given = input("(y)es / (n)o, default no: ")
+				given = raw_input("(y)es / (n)o, default no: ")
 				if not given:
 					given = "n"
 				
@@ -1068,7 +1068,7 @@ Use "help FireStage1" to get more details.
 			elif given.lower() in ["n", "no"]:
 				return False
 			else:
-				print("invalid input")
+				print "invalid input"
 		
 	
 	def do_upload(self, line):
@@ -1076,7 +1076,7 @@ Use "help FireStage1" to get more details.
 		target_path = ""
 		source_path = ""
 		if len(args) == 0 or len(line) == 0:
-			print("you need to provide a file source")
+			print "you need to provide a file source"
 			return
 		elif len(args) == 1:
 			source_path = args[0].strip()
@@ -1085,7 +1085,7 @@ Use "help FireStage1" to get more details.
 			source_path = args[0].strip()
 			target_path = args[1].strip()
 		else:
-			print("wrong argument count")
+			print "wrong argument count"
 			return
 		
 		
@@ -1094,7 +1094,7 @@ Use "help FireStage1" to get more details.
 		try:
 			sourcefile = FileSystem.open_local_file(source_path, FileMode.Open, FileAccess.Read)
 		except Exception as e:
-			print(e.message)
+			print e.message
 			return
 		
 			
@@ -1107,11 +1107,11 @@ Use "help FireStage1" to get more details.
 		stream_id = -1
 		if success:
 			stream_id = struct.unpack("!i", result)[0] # signed int
-			print("Remote FileStream with ID '{0}' opened".format(stream_id))
-			print(stream_id)
+			print "Remote FileStream with ID '{0}' opened".format(stream_id)
+			print stream_id
 		else:
-			print("File open Error: {0}".format(StructHelper.extractNullTerminatedString(result)[0]))
-			print("Seems the target file already exists, access is forbidden or the path is invalid. Do you want to force overwrite?")
+			print "File open Error: {0}".format(StructHelper.extractNullTerminatedString(result)[0])
+			print "Seems the target file already exists, access is forbidden or the path is invalid. Do you want to force overwrite?"
 			
 			overwrite = P4wnP1.askYesNo(default_yes=True)
 			if overwrite:
@@ -1120,21 +1120,21 @@ Use "help FireStage1" to get more details.
 							                            remote_fileaccess = FileAccess.Write) 
 				if success:
 					stream_id = struct.unpack('!i', result)[0] #signed int
-					print("Remote FileStream with ID '{0}' opened".format(stream_id))
+					print "Remote FileStream with ID '{0}' opened".format(stream_id)
 				else:
-					print("File open Error: {0}".format(StructHelper.extractNullTerminatedString(result)[0]))
+					print "File open Error: {0}".format(StructHelper.extractNullTerminatedString(result)[0])
 					return
 			else:
 				return
 		
-		print("Uploading local file {0} to remote file {1}".format(source_path, target_path))
+		print "Uploading local file {0} to remote file {1}".format(source_path, target_path)
 		
 		# if we are here, file open succeeded and we request a channel for the filestream
 		stream_channel = None
 		success, result = self.client_call_open_stream_channel(stream_id,  passthrough=False)
 		if success:
 			channel_id = struct.unpack("!I", result)[0] # unsigned int
-			print("Opened stream channel with id {0}".format(channel_id))
+			print "Opened stream channel with id {0}".format(channel_id)
 			
 			# bind stream to local StreamChannel object
 			stream_channel = StreamChannel(channel_id, stream_id, False)
@@ -1143,7 +1143,7 @@ Use "help FireStage1" to get more details.
 			self.client.addChannel(stream_channel)
 			
 		else:
-			print("Open channel Error: {0}".format(StructHelper.extractNullTerminatedString(result)[0]))
+			print "Open channel Error: {0}".format(StructHelper.extractNullTerminatedString(result)[0])
 			
 			# ToDo: Remote stream should be destroyed
 			return
@@ -1165,7 +1165,7 @@ Use "help FireStage1" to get more details.
 			sys.stdout.write(".")
 			if writeres == -1:
 				# write error (or channel closed)
-				print("\nError writing to file channel")
+				print "\nError writing to file channel"
 				no_error = False
 				break
 			sys.stdout.flush()
@@ -1179,23 +1179,23 @@ Use "help FireStage1" to get more details.
 			stream_channel.Close()
 			endtime =  time.time()
 			
-			print("\nUpload of '{0}' finished in {1:4.2f} seconds".format(source_path, endtime - starttime))
+			print "\nUpload of '{0}' finished in {1:4.2f} seconds".format(source_path, endtime - starttime)
 		
 		
 		# Request close of remote FileStream file
 		if self.client.isConnected():
 			success, result = self.client_call_close_stream(stream_id)
 		else:
-			print("Remote file handle couldn't be closed, because client disconnected")
+			print "Remote file handle couldn't be closed, because client disconnected"
 		
-		print()
+		print
 		
 	def do_download(self, line):
 		args = line.split(" ")
 		target_path = ""
 		source_path = ""
 		if len(args) == 0 or len(line) == 0:
-			print("you need to provide a file source")
+			print "you need to provide a file source"
 			return
 		elif len(args) == 1:
 			source_path = args[0].strip()
@@ -1204,25 +1204,25 @@ Use "help FireStage1" to get more details.
 			source_path = args[0].strip()
 			target_path = args[1].strip()
 		else:
-			print("wrong argument count")
+			print "wrong argument count"
 			return
 
-		print("Downloading remote file {0} to local file {1}".format(source_path, target_path))
+		print "Downloading remote file {0} to local file {1}".format(source_path, target_path)
 		
 		targetfile = None
 		# try to open local file first
 		try:
 			targetfile = FileSystem.open_local_file(target_path, FileMode.CreateNew, FileAccess.Write)
 		except Exception as e:
-			print(e.message)
-			print("Seems the file '{0}' exists or write permissions are missing!".format(target_path))
-			print("Do you want to try to overwrite the file")
+			print e.message
+			print "Seems the file '{0}' exists or write permissions are missing!".format(target_path)
+			print "Do you want to try to overwrite the file"
 			overwrite = P4wnP1.askYesNo(default_yes=True)
 			if overwrite:
 				try:
 					targetfile = FileSystem.open_local_file(target_path, FileMode.Create, FileAccess.Write)
 				except Exception as e:
-					print(e.message)
+					print e.message
 					return
 			else:
 				return		
@@ -1235,11 +1235,11 @@ Use "help FireStage1" to get more details.
 		stream_id = -1
 		if success:
 			stream_id = struct.unpack("!i", result)[0] # signed int
-			print("Remote FileStream with ID '{0}' opened".format(stream_id))
-			print(stream_id)
+			print "Remote FileStream with ID '{0}' opened".format(stream_id)
+			print stream_id
 		else:
-			print("File open Error: {0}".format(StructHelper.extractNullTerminatedString(result)[0]))
-			print("Seems the source file doesn't exist, aborting.")
+			print "File open Error: {0}".format(StructHelper.extractNullTerminatedString(result)[0])
+			print "Seems the source file doesn't exist, aborting."
 
 			targetfile.close()
 			return
@@ -1250,7 +1250,7 @@ Use "help FireStage1" to get more details.
 		                                                      passthrough=False)
 		if success:
 			channel_id = struct.unpack("!I", result)[0] # unsigned int
-			print("Opened stream channel with id {0}".format(channel_id))
+			print "Opened stream channel with id {0}".format(channel_id)
 
 			# bind stream to local StreamChannel object
 			stream_channel =  StreamChannel(channel_id, stream_id,  passthrough=False)
@@ -1259,7 +1259,7 @@ Use "help FireStage1" to get more details.
 			self.client.addChannel(stream_channel)
 
 		else:
-			print("Open channel Error: {0}".format(StructHelper.extractNullTerminatedString(result)[0]))
+			print "Open channel Error: {0}".format(StructHelper.extractNullTerminatedString(result)[0])
 
 			# ToDo: Remote stream should be destroyed
 			return
@@ -1285,7 +1285,7 @@ Use "help FireStage1" to get more details.
 					targetfile.flush()
 					targetfile.close()
 			except ChannelException as e:
-				print((e.__str__()))
+				print(e.__str__())
 				no_error = False
 				targetfile.close()
 				return # abort further reading
@@ -1296,15 +1296,15 @@ Use "help FireStage1" to get more details.
 			stream_channel.Close()
 			endtime =  time.time()
 			
-			print("\nDownload of '{0}' finished in {1:4.2f} seconds".format(source_path, endtime - starttime))		
+			print "\nDownload of '{0}' finished in {1:4.2f} seconds".format(source_path, endtime - starttime)		
 		
 		# Request close of remote FileStream file
 		if self.client.isConnected():
 			success, result = self.client_call_close_stream(stream_id)
 		else:
-			print("Remote file handle couldn't be closed, because client disconnected")		
+			print "Remote file handle couldn't be closed, because client disconnected"		
 		
-		print()
+		print
 
 if __name__ == "__main__":
 	rundir = os.path.dirname(sys.argv[0])
@@ -1352,12 +1352,12 @@ if __name__ == "__main__":
 		#print "\t{}".format(e.message)
 		#exc_type, exc_obj, exc_tb = sys.exc_info()
 		#print "\tLine: {}".format(exc_tb.tb_lineno)
-		if sys.exc_info()[0] != exceptions.SystemExit:
+		if sys.exc_type != exceptions.SystemExit:
 			traceback.print_exc()
 		raise
 	finally:
 
-		print("Cleaning Up...")
+		print "Cleaning Up..."
 		ll.stop() # send stop event to read and write loop of link layer
 		HIDout_file.close()
 		HIDin_file.close()
