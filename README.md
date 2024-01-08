@@ -30,6 +30,7 @@ You can get my cutom P4wnP1 Kali Linux 2023.1 image for Raspberry Pi 0W from [he
   - MDK4
   - MSFPC
   - Python3-pymetasploit3
+  - kali windows-binaries
   - `raspi-config` for easy filesystem expansion
   - **Note**: Only supports Python3 (Python2 is excluded).
 
