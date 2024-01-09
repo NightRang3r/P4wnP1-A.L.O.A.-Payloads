@@ -1,6 +1,10 @@
 # P4wnP1-A.L.O.A. Payloads
 
-## Currently Under Development: This repository is actively being updated. Stay tuned for new changes and improvements. !!!!
+The scripts (for Windows and OSX), HIDScripts (for Windows) and RAW HID Attacks Scripts have been tested and verified. They've been adapted to integrate and work with my customized P4wnP1 Image. You'll find this repository pre-included in the root directory of the image. To ensure you have the latest version, execute a 'git pull' command once in a while.
+
+If you plan to use this repository with a different image, be prepared to make the necessary adjustments to the scripts for compatibility.
+
+You can get my cutom P4wnP1 Kali Linux 2023.1 image for Raspberry Pi 0W from [here](https://drive.google.com/drive/folders/14XCb1sHFjzZa7OnzNZRt5AeTbEyZlZGf?usp=sharing) or [here](https://mega.nz/folder/UWgClaID#IlDFij3ckSTR4EqTlzDh_Q)
 
 - HID Scripts should be placed in `/usr/local/P4wnP1/HIDScripts`
 - Shell scripts should be places in `/usr/local/P4wnP1/scripts`
@@ -8,13 +12,7 @@
 
 **You can find the usage and requirements information in the comments inside each file**
 
-The scripts (compatible with Windows and OSX) and HIDScripts (designed for Windows) have been tested and verified. They've been adapted to integrate and work with [my customized P4wnP1 Image](https://drive.google.com/drive/folders/14XCb1sHFjzZa7OnzNZRt5AeTbEyZlZGf?usp=sharing). You'll find this repository pre-included in the root directory of the image. To ensure you have the latest version, periodically execute a 'git pull' command.
-
-If you plan to use this repository with a different image, be prepared to make necessary adjustments to the scripts for compatibility.
-
 # P4wnP1 A.L.O.A - Kali Linux 2023.1 Image for Raspberry Pi 0W
-
-You can get my cutom P4wnP1 Kali Linux 2023.1 image for Raspberry Pi 0W from [here](https://drive.google.com/drive/folders/14XCb1sHFjzZa7OnzNZRt5AeTbEyZlZGf?usp=sharing) or [here](https://mega.nz/folder/UWgClaID#IlDFij3ckSTR4EqTlzDh_Q)
 
 ## Key Features
 
@@ -47,9 +45,11 @@ You can get my cutom P4wnP1 Kali Linux 2023.1 image for Raspberry Pi 0W from [he
 - **LCD Menu**: [`P4wnP1_ALOA_LCD_MENU`](https://github.com/NightRang3r/P4wnP1_ALOA_LCD_MENU.git) - a modified version of this repository is included in the image in the root folder.
 - **OLED Menu V2**: [`P4wnP1_ALOA_OLED_MENU_V2`](https://github.com/beboxos/P4wnP1_ALOA_OLED_MENU_V2.git) - a modified version of this repository is included in the image in the root folder, Adjustments may be needed for Python3.
 
+You will need to initiate the `install.sh` script in the corresponding directory to install the lcd support.
+
 ## Exclusive Payloads
 
-- [`P4wnP1-A.L.O.A.-Payloads`](https://github.com/NightRang3r/P4wnP1-A.L.O.A.-Payloads.git) - A collection of Payloads for P4wnP1.
+- [`P4wnP1-A.L.O.A.-Payloads`](https://github.com/NightRang3r/P4wnP1-A.L.O.A.-Payloads.git) - A collection of Payloads for P4wnP1 already included in the image in the root folder.
 
 ### Installation Guide
 
