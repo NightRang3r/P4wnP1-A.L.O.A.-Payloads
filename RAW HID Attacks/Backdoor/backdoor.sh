@@ -22,4 +22,3 @@ else
         echo "[!] HID covert channel server already running"
 fi
 
-
