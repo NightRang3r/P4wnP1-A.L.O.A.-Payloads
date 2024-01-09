@@ -36,7 +36,7 @@ chunks = lambda A, chunksize=60: [A[i:i+chunksize] for i in range(0, len(A), chu
 # 4-63	60 Bytes	Payload
 
 # reassemable received and enqueue report fragments into full streams (separated by dst/src)
-def fragment_rcvd(qin, fragemnt_assembler, src=0, dst=0, data=""):
+def fragment_rcvd(qin, fragment_assembler, src=0, dst=0, data=""):
 	stream_id = (src, dst)
 	# if src == dst == 0, ignore (heartbeat)
 	if (src != 0 or dst !=0):
