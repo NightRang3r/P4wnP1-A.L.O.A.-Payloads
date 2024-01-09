@@ -10,7 +10,7 @@ fi
 echo "[*] Kill old hidstager processes..."
 ps -aux | grep hidstager.py | grep -v grep | awk {'system("kill "$2)'}
 echo "[*] Starting HID stager for backdoor covert channel payload..."
-python  /usr/local/P4wnP1/scripts/backdoor/hidstager.py -s -i  /usr/local/P4wnP1/scripts/backdoor/Stage1.ps1 -o $hidraw &
+python2 /usr/local/P4wnP1/scripts/backdoor/hidstager.py -s -i /usr/local/P4wnP1/scripts/backdoor/Stage1.ps1 -o $hidraw &
 P4wnP1_cli hid run -n FirstStage.js > /dev.null
 
 if ! ps -aux | grep P4wnP1.py | grep -q -v grep; then
