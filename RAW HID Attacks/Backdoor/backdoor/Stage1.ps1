@@ -1,6 +1,6 @@
 
 if (-not $USB_VID) {$USB_VID="1D6B"}
-if (-not $USB_PID) {$USB_PID="1315"}
+if (-not $USB_PID) {$USB_PID="1347"}
 function ReflectCreateFileMethod()
 {
 $dom = [AppDomain]::CurrentDomain

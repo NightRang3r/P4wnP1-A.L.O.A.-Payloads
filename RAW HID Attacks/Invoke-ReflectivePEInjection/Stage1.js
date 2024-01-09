@@ -33,4 +33,4 @@ if (hide) { hidePS(); } //hide the console if choosen to do so
 delay(500);
 assurePS32(); // open a 32bit console, if the current one is 64bit
 delay(500);
-hidDownAndIEX("1D6B", "1315");
+hidDownAndIEX("1D6B", "1347");

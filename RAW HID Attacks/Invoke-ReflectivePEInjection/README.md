@@ -22,7 +22,7 @@ Use a Covert RAW HID channel to deliver a payload to a windows machine and load 
 - Keyboard
 - Custom HID device
 - Vendor ID: `0x1d6b`
-- Product ID: `0x1315`
+- Product ID: `0x1347`
 - Manufacturer Name: `MaMe82`
 - Product Name: `P4wnP1 by MaMe82`
 - Serial Number: `deadbeef1337`
