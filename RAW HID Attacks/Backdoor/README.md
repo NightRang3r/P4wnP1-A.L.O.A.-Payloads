@@ -40,7 +40,7 @@
 - Product Name: `P4wnP1 by MaMe82`
 - Serial Number: `deadbeef1337`
 
-_If you want to use other VID/PID you will need to update the values in FirstStage.js and Stage1.ps1 (inside the backdoor folder)_
+_If you want to use other VID/PID you will need to update the values in backdoor.js and Stage1.ps1 (inside the backdoor folder)_
 
 **Store the template under the name "backdoor"**
 
