@@ -62,4 +62,4 @@ Example With Arguments:
 
 Example Without Arguments:
 
-`root@kali:/usr/local/P4wnP1/legacy# python StageGenerator.py /tmp/netcat.exe ""`
+`root@kali:/usr/local/P4wnP1/legacy# python2 StageGenerator.py /tmp/netcat.exe ""`

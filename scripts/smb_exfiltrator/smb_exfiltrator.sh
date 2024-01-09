@@ -5,7 +5,7 @@
 # You need to setup P4wnP1 USB Gadget Settings as RNDIS_ETHERNET and HID keyboard
 # Requirements 
 # impacket: sudo apt-get install python-impacket or download and install from https://github.com/SecureAuthCorp/impacket
-# smbserver.py from the impacket examples folder should be located in: "/usr/local/bin/smbserver.py" (should already be there in kali linux)
+# smbserver.py from the impacket examples folder should be located in: "/usr/share/doc/python3-impacket/examples/smbserver.py" (should already be there in kali linux)
 # Copy this script to "/usr/local/P4wnP1/scripts/"
 # Copy the "smb_exfiltrator" directory to "/usr/local/P4wnP1/scripts/"
 # Create a trigger to start the bash script "smb_exfiltrator.sh" when DHCP lease issued.

