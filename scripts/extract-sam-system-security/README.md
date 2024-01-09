@@ -15,7 +15,7 @@ Saves creds to the loot folder `/usr/local/P4wnP1/www/loot/sam`
 ## Requirements
 
 - Install **Impacket**: `sudo apt-get install python-impacket` or download and install from https://github.com/SecureAuthCorp/impacket
-- **secretsdump.py** from the Impacket examples folder should be located in: `/usr/local/bin/secretsdump.py` (should already be there in kali linux)
+- **secretsdump.py** from the Impacket examples folder should be located in: `/usr/share/doc/python3-impacket/examples/secretsdump.py` (should already be there in kali linux)
 - 7z
 
 ## Configuration
