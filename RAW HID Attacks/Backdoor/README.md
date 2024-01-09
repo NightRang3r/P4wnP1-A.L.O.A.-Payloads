@@ -26,7 +26,7 @@
 - Copy the "**backdoor**" directory to `/usr/local/P4wnP1/scripts/`
 - Copy the "**backdoor.sh**" script to `/usr/local/P4wnP1/scripts/`
 - chmod "**backdoor.sh**" to allow execution: `root@kali:/usr/local/P4wnP1/scripts# chmod 755 backdoor.sh`
-- Copy the "**FirstStage.js**" to `/usr/local/P4wnP1/HIDScripts/FirstStage.js`
+- Copy the "**backdoor.js**" to `/usr/local/P4wnP1/HIDScripts/backdoor.js`
 
 ## Configuration
 
