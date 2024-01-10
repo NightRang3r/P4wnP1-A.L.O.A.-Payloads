@@ -30,7 +30,9 @@
 - Keyboard
 - Custom HID device
 - Vendor ID: `0x1d6b`
-- Product ID: `0x0137`
+- Product ID: `0x1347`
 - Manufacturer Name: `MaMe82`
 - Product Name: `P4wnP1 by MaMe82`
 - Serial Number: `deadbeef1337`
+
+You can change the vendor and product ID to your needs, but you have to change the values in the `frontdoor.js` script as well.
