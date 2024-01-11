@@ -38,3 +38,5 @@
 To activate the code you will need to press the NumLock key 5 times in a row. This will trigger the payload to be typed out to the target and executed.
 
 You can change the vendor and product ID to your needs, but you have to change the values in the `frontdoor.js` script as well.
+
+To interact with the frontdoor on on your P4wnP1 shell just type `screen -d -r hidsrv`.
