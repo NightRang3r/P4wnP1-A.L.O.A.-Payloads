@@ -20,13 +20,15 @@ COUNT=$((COUNT+1))
 mkdir -p $LOOTDIR/$HOST-$COUNT
 mkdir -p /usr/local/P4wnP1/www/loot/scans/$HOST-$COUNT
 
+
+
 if [ -z "$TARGET_IP" ]; then
 	exit 1
 fi
 
 echo "[*] Initiating nmap scan on: $TARGET_HOSTNAME - $TARGET_IP"
 
-nmap -sTV -v $TARGET_IP -O -A --script discovery,version --system-dns -oN /usr/local/P4wnP1/www/loot/scans/$HOST-$COUNT/$HOST-$COUNT.txt
+nmap -sTV -v $TARGET_IP -O -A --script discovery,version --system-dns -oN $LOOTDIR/$HOST-$COUNT/results.txt
 
 
 echo "[+] Scan completed!"
