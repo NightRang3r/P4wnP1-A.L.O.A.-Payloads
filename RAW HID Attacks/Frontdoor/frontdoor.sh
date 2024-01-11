@@ -13,7 +13,7 @@ if ! ps aux | grep '[h]idserver.py' > /dev/null; then
     touch /tmp/device_hid_mouse
     screen -dmS hidsrv bash -c "cd /usr/local/P4wnP1/scripts/frontdoor; python2 hidserver.py"
     echo "[+] Type \"screen -d -r hidsrv\" to switch to frontdoor cli"
-    P4wnP1_cli hid run -c 'waitLED(NUM);waitLED(NUM);waitLED(NUM);waitLED(NUM);waitLED(NUM); && P4wnP1_cli hid run -n frontdoor.js &
+    P4wnP1_cli hid run -c 'waitLED(NUM);waitLED(NUM);waitLED(NUM);waitLED(NUM);waitLED(NUM);' && P4wnP1_cli hid run -n frontdoor.js &
 else
     echo "[!] Frontdoor covert channel server already running"
 fi
