@@ -7,7 +7,7 @@
 # Copy this script to "/usr/local/P4wnP1/scripts/"
 # Create a trigger that starts the bash script "Quickdraw.sh" when DHCP lease issued
 
-RESPONDER_OPTIONS=" -w -r -d -P -F -v --lm"
+RESPONDER_OPTIONS=" -w -r -d -P -F -v"
 LOOTDIR=/usr/local/P4wnP1/www/loot/quickdraw
 TARGET_HOSTNAME=$(cat /tmp/dnsmasq_usbeth.leases | cut -d " " -f4);
 TARGET_IP=$(cat /tmp/dnsmasq_usbeth.leases | cut -d " " -f3);
