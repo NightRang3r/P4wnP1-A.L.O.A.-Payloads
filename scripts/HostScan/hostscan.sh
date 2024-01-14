@@ -18,7 +18,7 @@ HOST=$TARGET_HOSTNAME
 COUNT=$(ls -lad $LOOTDIR/$HOST* | wc -l)
 COUNT=$((COUNT+1))
 mkdir -p $LOOTDIR/$HOST-$COUNT
-mkdir -p /usr/local/P4wnP1/www/loot/scans/$HOST-$COUNT
+#mkdir -p /usr/local/P4wnP1/www/loot/scans/$HOST-$COUNT
 
 
 
