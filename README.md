@@ -6,17 +6,17 @@ If you plan to use this repository with a different image, be prepared to make t
 
 You can get my cutom P4wnP1 Kali Linux 2023.1 image for Raspberry Pi 0W from [here](https://drive.google.com/drive/folders/14XCb1sHFjzZa7OnzNZRt5AeTbEyZlZGf?usp=sharing) or [here](https://mega.nz/folder/UWgClaID#IlDFij3ckSTR4EqTlzDh_Q)
 
-There are 2 versions of the image
+**There are 2 versions of the image:**
 
-1. P4wnP1-aloha-kali-linux-2023.1-raspberry-pi-zero-w-by-NightRang3r-1.1.0-lite.img.xz
+1. `P4wnP1-aloha-kali-linux-2023.1-raspberry-pi-zero-w-by-NightRang3r-1.1.0-lite.img.xz`
 
 Lite version means that the scripts in this repo are included but not installed or deployed. You will need to manually copy them to the correct directories and setup the triggers in the P4wnP1 UI.
 
-2. P4wnP1-aloha-kali-linux-2023.1-raspberry-pi-zero-w-by-NightRang3r-1.1.0.img.xz
+2. `P4wnP1-aloha-kali-linux-2023.1-raspberry-pi-zero-w-by-NightRang3r-1.1.0.img.xz`
 
 Full version means that all of the Scripts, Raw HID scripts and most of the HID scripts in this repo are included, installed and configured. You can start use them right away.
 
-Please notice that a 16GB SD card is required for the both versions of the image. The image is compressed with xz and you will need to use a tool like [7zip](https://www.7-zip.org/) to extract it.
+**Please notice that a 16GB SD card is required for the both versions of the image. The image is compressed with xz and you will need to use a tool like [7zip](https://www.7-zip.org/) to extract it.**
 
 - HID Scripts should be placed in `/usr/local/P4wnP1/HIDScripts`
 - Shell scripts should be places in `/usr/local/P4wnP1/scripts`
