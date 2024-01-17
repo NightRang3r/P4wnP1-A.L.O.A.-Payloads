@@ -4,7 +4,7 @@ The scripts (for Windows and OSX), HIDScripts (for Windows) and RAW HID Attacks 
 
 If you plan to use this repository with a different image, be prepared to make the necessary adjustments to the scripts for compatibility.
 
-You can get my cutom P4wnP1 Kali Linux 2023.1 image for Raspberry Pi 0W from [here](https://drive.google.com/drive/folders/14XCb1sHFjzZa7OnzNZRt5AeTbEyZlZGf?usp=sharing) or [here](https://mega.nz/folder/UWgClaID#IlDFij3ckSTR4EqTlzDh_Q)
+You can get my custom P4wnP1 Kali Linux 2023.1 image for Raspberry Pi 0W from [here](https://drive.google.com/drive/folders/14XCb1sHFjzZa7OnzNZRt5AeTbEyZlZGf?usp=sharing) or [here](https://mega.nz/folder/UWgClaID#IlDFij3ckSTR4EqTlzDh_Q)
 
 **There are 2 versions of the image:**
 
