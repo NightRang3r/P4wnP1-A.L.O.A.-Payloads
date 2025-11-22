@@ -84,6 +84,37 @@ except Exception:
 
     GPIO = _FakeGPIO()
 
+# Ensure GPIO module/stub has the expected API used by this script.
+def _ensure_gpio_api(g):
+    # functions
+    if not hasattr(g, 'setwarnings'):
+        def setwarnings(v):
+            return None
+        g.setwarnings = setwarnings
+    if not hasattr(g, 'setmode'):
+        def setmode(m):
+            return None
+        g.setmode = setmode
+    if not hasattr(g, 'setup'):
+        def setup(*args, **kwargs):
+            return None
+        g.setup = setup
+    if not hasattr(g, 'input'):
+        def input(pin):
+            return 1
+        g.input = input
+    if not hasattr(g, 'output'):
+        def output(*a, **k):
+            return None
+        g.output = output
+
+    # constants
+    for const in ('BCM', 'IN', 'PUD_UP', 'OUT'):
+        if not hasattr(g, const):
+            setattr(g, const, None)
+
+_ensure_gpio_api(GPIO)
+
 import datetime
 import time
 import subprocess
