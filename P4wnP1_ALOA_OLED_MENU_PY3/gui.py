@@ -19,7 +19,37 @@ except Exception:
         i2c = None
         spi = None
 
-from luma.core.render import canvas
+from contextlib import contextmanager
+try:
+    from luma.core.render import canvas
+except Exception:
+    # provide a lightweight fallback canvas if luma's canvas is unavailable
+    @contextmanager
+    def canvas(device):
+        # determine size from device where possible
+        try:
+            w = int(getattr(device, 'width', device.size[0]))
+            h = int(getattr(device, 'height', device.size[1]))
+        except Exception:
+            w, h = (128, 64)
+        img = Image.new('1', (w, h))
+        draw = ImageDraw.Draw(img)
+        try:
+            yield draw
+            try:
+                # try to display the image using luma device API
+                if hasattr(device, 'display'):
+                    device.display(img)
+                elif hasattr(device, 'show'):
+                    device.show()
+            except Exception:
+                pass
+        finally:
+            try:
+                del draw
+            except Exception:
+                pass
+
 from luma.oled.device import sh1106
 import RPi.GPIO as GPIO
 import datetime
