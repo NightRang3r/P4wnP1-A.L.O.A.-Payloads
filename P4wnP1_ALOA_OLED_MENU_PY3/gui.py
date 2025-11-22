@@ -20,6 +20,7 @@ import os
 import struct
 import smbus
 import random
+import shutil
 
 # ==================== CONFIGURATION ====================
 UPS = 0  # 1 = UPS Lite connected / 0 = No UPS Lite hat
@@ -125,6 +126,9 @@ MENU_ITEMS = {
     18: {'text': 'Key Layout', 'icon': 'hid', 'action': 'keylayout'},
     21: {'text': 'Scan WiFi AP', 'icon': 'wifi', 'action': 'scanwifi'},
     22: {'text': 'Bettercap WebUI', 'icon': 'bettercap', 'action': 'bettercap'},
+    23: {'text': 'BC MassDeauth', 'icon': 'wifi', 'action': 'bettercap_massdeauth'},
+    24: {'text': 'BC NetMon', 'icon': 'bettercap', 'action': 'bettercap_netmon'},
+    25: {'text': 'BC MANA AP', 'icon': 'bettercap', 'action': 'bettercap_mana'},
     28: {'text': 'Send Trigger', 'icon': 'trigger', 'action': 'trigger1'},
     35: {'text': 'Full Settings', 'icon': 'template', 'action': 'template_full'},
     36: {'text': 'Bluetooth', 'icon': 'template', 'action': 'template_bt'},
@@ -668,6 +672,16 @@ def action_dispatcher(action):
         KeyTest()
     elif action == 'bettercap':
         start_bettercap_wrapper(8081)
+    elif action == 'bettercap_massdeauth':
+        # Confirm before running disruptive wireless attack
+        if confirm_dialog("Mass Deauth", "Run mass deauth?"):
+            run_bettercap_caplet('massdeauth')
+    elif action == 'bettercap_netmon':
+        if confirm_dialog("Net Monitor", "Start netmon caplet?"):
+            run_bettercap_caplet('netmon')
+    elif action == 'bettercap_mana':
+        if confirm_dialog("MANA AP", "Start MANA rogue AP?"):
+            run_bettercap_caplet('mana')
     else:
         # generic: try calling a function by name if it exists
         func = globals().get(action)
@@ -684,3 +698,36 @@ def action_dispatcher(action):
             except:
                 DisplayText("Unknown action", action, "", "", "", "", "")
                 time.sleep(1)
+
+def find_bettercap_bin():
+    """Return path to bettercap binary or None"""
+    paths = ['/usr/bin/bettercap', '/usr/local/bin/bettercap']
+    for p in paths:
+        if os.path.exists(p) and os.access(p, os.X_OK):
+            return p
+    p = shutil.which('bettercap')
+    return p
+
+def run_bettercap_caplet(caplet_name, iface=None):
+    """Run a bettercap caplet in background; returns True if launched."""
+    bcmd = find_bettercap_bin()
+    if not bcmd:
+        DisplayText("bettercap not found", "Install first", "", "", "", "", "")
+        time.sleep(1.5)
+        return False
+
+    args = [bcmd, '-caplet', caplet_name]
+    # if iface provided, attempt to pass via -eval
+    if iface:
+        args = [bcmd, '-eval', f"set iface {iface}; caplets.run {caplet_name}"]
+
+    try:
+        subprocess.Popen(args, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+        DisplayText(f"Launched {caplet_name}", "See logs for details", "", "", "", "", "")
+        time.sleep(1.5)
+        return True
+    except Exception as e:
+        DisplayText("Failed to launch", str(e)[:18], "", "", "", "", "")
+        time.sleep(1.5)
+        return False
+
