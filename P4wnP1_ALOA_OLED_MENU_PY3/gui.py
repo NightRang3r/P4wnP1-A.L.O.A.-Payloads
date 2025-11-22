@@ -6,7 +6,19 @@ Developed by 4r4m
 Enhanced UI with animations and better UX
 """
 
-from luma.core.interface.serial import i2c, spi
+# luma's serial API changed across versions; try a resilient import
+try:
+    from luma.core.interface.serial import i2c, spi  # preferred
+except Exception:
+    try:
+        # fallback: import module and look up attributes
+        from luma.core.interface import serial as serial_mod
+        i2c = getattr(serial_mod, 'i2c', None)
+        spi = getattr(serial_mod, 'spi', None)
+    except Exception:
+        i2c = None
+        spi = None
+
 from luma.core.render import canvas
 from luma.oled.device import sh1106
 import RPi.GPIO as GPIO
