@@ -20,6 +20,8 @@ except Exception:
         spi = None
 
 from contextlib import contextmanager
+from contextlib import contextmanager
+import importlib
 try:
     from luma.core.render import canvas
 except Exception:
@@ -50,8 +52,38 @@ except Exception:
             except Exception:
                 pass
 
-from luma.oled.device import sh1106
-import RPi.GPIO as GPIO
+# robust import for sh1106 device
+try:
+    from luma.oled.device import sh1106
+except Exception:
+    try:
+        mod = importlib.import_module('luma.oled.device.sh1106')
+        sh1106 = getattr(mod, 'sh1106', None)
+    except Exception:
+        sh1106 = None
+
+# GPIO: prefer RPi.GPIO; if missing provide a minimal stub for testing
+try:
+    import RPi.GPIO as GPIO
+except Exception:
+    class _FakeGPIO:
+        BCM = None
+        IN = None
+        PUD_UP = None
+
+        def setwarnings(self, v):
+            pass
+        def setmode(self, m):
+            pass
+        def setup(self, *a, **k):
+            pass
+        def input(self, *a, **k):
+            return 1
+        def output(self, *a, **k):
+            pass
+
+    GPIO = _FakeGPIO()
+
 import datetime
 import time
 import subprocess
@@ -60,11 +92,64 @@ import socket
 import sys
 import os
 import struct
-import smbus
+try:
+    import smbus
+except Exception:
+    try:
+        import smbus2 as smbus
+    except Exception:
+        smbus = None
 import random
 import shutil
 
-# ==================== CONFIGURATION ====================
+def diagnostics():
+    """Detect missing runtime dependencies and print actionable install commands."""
+    msgs = []
+    # luma canvas availability
+    try:
+        import importlib
+        importlib.import_module('luma.core.render')
+        has_canvas = True
+    except Exception:
+        has_canvas = False
+
+    msgs.append(("luma.canvas", has_canvas))
+    msgs.append(("luma.sh1106", sh1106 is not None))
+
+    # GPIO check
+    gpio_ok = not (type(GPIO).__name__ == '_FakeGPIO')
+    msgs.append(("RPi.GPIO", gpio_ok))
+
+    # smbus
+    msgs.append(("smbus/smbus2", smbus is not None))
+
+    # bettercap
+    msgs.append(("bettercap", shutil.which('bettercap') is not None))
+
+    # Print summary
+    print("[GUI DIAGNOSTICS]")
+    for name, ok in msgs:
+        print(f"  {name}: {'OK' if ok else 'MISSING'}")
+
+    if not has_canvas or sh1106 is None:
+        print('\nDisplay drivers appear missing or incomplete. To install on Kali (Pi Zero W), run:')
+        print('  sudo apt update')
+        print('  sudo apt install -y python3-pip i2c-tools')
+        print('  sudo pip3 install --upgrade luma.oled luma.core pillow')
+        print('  enable I2C/SPI and reboot (raspi-config or edit /boot/config.txt)')
+
+    if not gpio_ok:
+        print('\nGPIO library missing; install with:')
+        print('  sudo pip3 install RPi.GPIO')
+
+    if smbus is None:
+        print('\nSMBus missing; install with:')
+        print('  sudo pip3 install smbus2')
+
+    if shutil.which('bettercap') is None:
+        print('\nBettercap not found; install bettercap if you want caplet features:')
+        print('  sudo apt install bettercap')
+
 UPS = 0  # 1 = UPS Lite connected / 0 = No UPS Lite hat
 SCNTYPE = 1  # 1 = OLED / 2 = TERMINAL MODE
 USER_I2C = 0  # 0 = SPI, 1 = I2C
@@ -106,14 +191,26 @@ GPIO.setup(KEY3_PIN, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 
 # ==================== DISPLAY INITIALIZATION ====================
 if SCNTYPE == 1:
-    if USER_I2C == 1:
-        GPIO.setup(RST_PIN, GPIO.OUT)
-        GPIO.output(RST_PIN, GPIO.HIGH)
-        serial = i2c(port=1, address=0x3c)
+    # Ensure we have luma drivers available; otherwise fall back to terminal mode
+    if sh1106 is None or (i2c is None and spi is None):
+        SCNTYPE = 2
+        print("Warning: luma display drivers not available; switching to terminal mode")
     else:
-        serial = spi(device=0, port=0, bus_speed_hz=8000000, 
-                    transfer_size=4096, gpio_DC=24, gpio_RST=25)
-    device = sh1106(serial, rotate=2)
+        try:
+            if USER_I2C == 1 and i2c is not None:
+                GPIO.setup(RST_PIN, GPIO.OUT)
+                GPIO.output(RST_PIN, GPIO.HIGH)
+                serial = i2c(port=1, address=0x3c)
+            elif spi is not None:
+                serial = spi(device=0, port=0, bus_speed_hz=8000000,
+                             transfer_size=4096, gpio_DC=DC_PIN, gpio_RST=RST_PIN)
+            else:
+                raise RuntimeError('No serial interface available')
+
+            device = sh1106(serial, rotate=2)
+        except Exception as e:
+            SCNTYPE = 2
+            print(f"Display init failed, switching to terminal mode: {e}")
 
 # ==================== FONT LOADING ====================
 try:
